@@ -1,0 +1,127 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 28px;
+  background: var(--bg);
+  transition: background 0.15s ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  background: var(--surface-hover);
+}
+
+.top {
+  margin-bottom: 24px;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.stageNum {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 2px;
+  font-weight: 700;
+}
+
+.badge_mountain {
+  color: var(--terrain-mountain);
+  background: var(--terrain-mountain-dim);
+}
+
+.badge_hilly {
+  color: var(--terrain-hilly);
+  background: var(--terrain-hilly-dim);
+}
+
+.badge_flat {
+  color: var(--terrain-flat);
+  background: var(--terrain-flat-dim);
+}
+
+.name {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.route {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.arrow {
+  color: var(--text-muted);
+}
+
+.mapArea {
+  flex: 1;
+  margin-bottom: 20px;
+  height: 140px;
+}
+
+.stats {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-top: 1px solid var(--border);
+  padding-top: 18px;
+}
+
+.stat {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.statValue {
+  font-family: var(--font-mono);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.statLabel {
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.statDivider {
+  width: 1px;
+  height: 16px;
+  background: var(--border-strong);
+}
+
+.viewLink {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  transition: color 0.15s;
+}
+
+.card:hover .viewLink {
+  color: var(--accent);
+}
