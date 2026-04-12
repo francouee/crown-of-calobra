@@ -2,11 +2,13 @@ import { useState, useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import MiniMap from '../components/MiniMap.jsx'
 import ElevationProfile from '../components/ElevationProfile.jsx'
+import ThemeToggle from '../components/ThemeToggle.jsx'
 import { STAGES } from '../data/stages.js'
 import { useGpxTrack } from '../hooks/useGpxTrack.js'
 import { processTrack } from '../utils/gradients.js'
 import { detectClimbs } from '../utils/detectClimbs.js'
 import ClimbProfile from '../components/ClimbProfile.jsx'
+import { useThemeContext } from '../App.jsx'
 import styles from './StagePage.module.css'
 
 const TERRAIN_LABEL = {
@@ -20,6 +22,7 @@ export default function StagePage() {
   const stage = STAGES.find((s) => s.id === Number(id))
   const { track, stats, loading: gpxLoading } = useGpxTrack(stage?.gpx)
   const [hoveredIdx, setHoveredIdx] = useState(null)
+  const { theme, toggle } = useThemeContext()
 
   const climbs = useMemo(() => {
     if (!track) return []
@@ -42,7 +45,10 @@ export default function StagePage() {
     <div className={styles.page}>
       <nav className={styles.nav}>
         <Link to="/" className={styles.backBtn}>← All Stages</Link>
-        <span className={styles.navStage}>Stage {stage.id} / 5</span>
+        <div className={styles.navRight}>
+          <span className={styles.navStage}>Stage {stage.id} / 5</span>
+          <ThemeToggle theme={theme} onToggle={toggle} />
+        </div>
       </nav>
 
       <header className={styles.header}>

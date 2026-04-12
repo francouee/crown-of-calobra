@@ -43,6 +43,9 @@ export default function ClimbProfile({ points, width = 220, height = 72 }) {
 
     const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`)
 
+    const cs = getComputedStyle(el)
+    const colorTextSecondary = cs.getPropertyValue('--text-secondary').trim() || '#666'
+
     // Gradient-colored fill bands
     for (let i = 0; i < points.length - 1; i++) {
       g.append('rect')
@@ -77,7 +80,7 @@ export default function ClimbProfile({ points, width = 220, height = 72 }) {
       )
       .call(ax => ax.select('.domain').remove())
       .call(ax => ax.selectAll('text')
-        .attr('fill', '#555')
+        .attr('fill', colorTextSecondary)
         .attr('font-family', 'var(--font-mono)')
         .attr('font-size', '9px')
         .attr('dx', '-4px')
@@ -94,7 +97,7 @@ export default function ClimbProfile({ points, width = 220, height = 72 }) {
       )
       .call(ax => ax.select('.domain').remove())
       .call(ax => ax.selectAll('text')
-        .attr('fill', '#555')
+        .attr('fill', colorTextSecondary)
         .attr('font-family', 'var(--font-mono)')
         .attr('font-size', '9px')
         .attr('dy', '1.2em')

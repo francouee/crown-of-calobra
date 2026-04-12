@@ -56,6 +56,11 @@ export default function ElevationProfile({ track, terrain, hoveredIdx, onHover }
 
     const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`)
 
+    // Read theme-aware colours from CSS variables
+    const cs = getComputedStyle(el)
+    const colorBorder = cs.getPropertyValue('--border').trim() || '#1e1e1e'
+    const colorTextSecondary = cs.getPropertyValue('--text-secondary').trim() || '#666'
+
     // Grid lines
     g.selectAll('.grid-line')
       .data(yScale.ticks(4))
@@ -65,7 +70,7 @@ export default function ElevationProfile({ track, terrain, hoveredIdx, onHover }
       .attr('x2', w)
       .attr('y1', (d) => yScale(d))
       .attr('y2', (d) => yScale(d))
-      .attr('stroke', '#1e1e1e')
+      .attr('stroke', colorBorder)
       .attr('stroke-width', 1)
 
     // Gradient-colored bands clipped to elevation area
@@ -102,7 +107,7 @@ export default function ElevationProfile({ track, terrain, hoveredIdx, onHover }
       .call((ax) => ax.select('.domain').remove())
       .call((ax) =>
         ax.selectAll('text')
-          .attr('fill', '#555')
+          .attr('fill', colorTextSecondary)
           .attr('font-family', 'var(--font-mono)')
           .attr('font-size', '10px')
           .attr('dy', '1.2em'),
@@ -116,7 +121,7 @@ export default function ElevationProfile({ track, terrain, hoveredIdx, onHover }
       .call((ax) => ax.select('.domain').remove())
       .call((ax) =>
         ax.selectAll('text')
-          .attr('fill', '#555')
+          .attr('fill', colorTextSecondary)
           .attr('font-family', 'var(--font-mono)')
           .attr('font-size', '10px')
           .attr('dx', '-6px'),

@@ -1,11 +1,14 @@
 import { Link } from 'react-router-dom'
 import StageCard from '../components/StageCard.jsx'
+import ThemeToggle from '../components/ThemeToggle.jsx'
 import { STAGES } from '../data/stages.js'
 import { useGpxTrack } from '../hooks/useGpxTrack.js'
+import { useThemeContext } from '../App.jsx'
 import styles from './HomePage.module.css'
 
 export default function HomePage() {
   const stages = STAGES
+  const { theme, toggle } = useThemeContext()
 
   // Load stats from each GPX (browser caches the fetches; StageCard reuses them)
   const { stats: s1 } = useGpxTrack(stages[0]?.gpx)
@@ -29,6 +32,7 @@ export default function HomePage() {
         <div className={styles.headerInner}>
           <div className={styles.headerTop}>
             <span className={styles.eyebrow}>Mallorca · {stages.length} Stages</span>
+            <ThemeToggle theme={theme} onToggle={toggle} />
           </div>
           <h1 className={styles.title}>Crown of Calobra</h1>
           <p className={styles.tagline}>

@@ -30,6 +30,26 @@
   --radius-lg: 8px;
 }
 
+[data-theme="light"] {
+  --bg: #f5f5f0;
+  --surface: #ffffff;
+  --surface-hover: #f0efea;
+  --border: #e0ddd6;
+  --border-strong: #c8c4bb;
+  --text: #1a1a1a;
+  --text-secondary: #6b6b6b;
+  --text-muted: #b0aca3;
+  --accent: #b8922a;
+  --accent-dim: rgba(184, 146, 42, 0.10);
+
+  --terrain-mountain: #c0392b;
+  --terrain-mountain-dim: rgba(192, 57, 43, 0.12);
+  --terrain-hilly: #2471c8;
+  --terrain-hilly-dim: rgba(36, 113, 200, 0.12);
+  --terrain-flat: #229954;
+  --terrain-flat-dim: rgba(34, 153, 84, 0.12);
+}
+
 html, body, #root {
   height: 100%;
 }

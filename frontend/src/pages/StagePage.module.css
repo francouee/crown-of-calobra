@@ -32,6 +32,12 @@
   letter-spacing: 0.08em;
 }
 
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .header {
   margin-bottom: 40px;
 }
