@@ -12,5 +12,33 @@
     "distance": 63690.871427098595,
     "elevation_gain": 952.9300000000003,
     "updated_at": "2026-04-12T18:26:19Z"
+  },
+  "3": {
+    "name": "étape plaine Majorque 2026",
+    "description": "",
+    "distance": 151315.4356027481,
+    "elevation_gain": 1330.2617607691582,
+    "updated_at": "2026-04-12T18:40:55Z"
+  },
+  "4": {
+    "name": "Mallorca - Short",
+    "description": "",
+    "distance": 76206.40457396347,
+    "elevation_gain": 1224.3668710702775,
+    "updated_at": "2026-04-12T15:42:10Z"
+  },
+  "5": {
+    "name": "Mallorca - Hard",
+    "description": "",
+    "distance": 191466.1645611936,
+    "elevation_gain": 3760.8311634233005,
+    "updated_at": "2026-04-12T15:46:39Z"
+  },
+  "6": {
+    "name": "Mallorca - Mid 2",
+    "description": "",
+    "distance": 143895.2089677869,
+    "elevation_gain": 1233.6260882269103,
+    "updated_at": "2026-04-12T15:57:24Z"
   }
 }
