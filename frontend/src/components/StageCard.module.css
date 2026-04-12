@@ -5,6 +5,8 @@
   background: var(--bg);
   transition: background 0.15s ease;
   cursor: pointer;
+  container-type: inline-size;
+  container-name: card;
 }
 
 .card:hover {
@@ -124,4 +126,53 @@
 
 .card:hover .viewLink {
   color: var(--accent);
+}
+
+/* ── content area ───────────────────────────────────────────── */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.sectionLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+/* Map fills all available width; height is fixed */
+.mapSection {
+  width: 100%;
+}
+
+.mapWrap {
+  width: 100%;
+  border-radius: var(--radius-sm, 4px);
+  overflow: hidden;
+}
+
+.chartSection {
+  width: 100%;
+}
+
+.descSection {
+  width: 100%;
+}
+
+.description {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* ── single-column breakpoint (card fills full row width) ───── */
+@media (max-width: 560px) {
+  .content {
+    flex-direction: column;
+  }
 }

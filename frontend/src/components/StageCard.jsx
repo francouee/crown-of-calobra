@@ -1,4 +1,5 @@
 import MiniMap from '../components/MiniMap.jsx'
+import ElevationProfile from '../components/ElevationProfile.jsx'
 import { useGpxTrack } from '../hooks/useGpxTrack.js'
 import styles from './StageCard.module.css'
 
@@ -30,8 +31,25 @@ export default function StageCard({ stage }) {
         </p>
       </div>
 
-      <div className={styles.mapArea}>
-        <MiniMap track={track} />
+      <div className={styles.content}>
+        <div className={styles.mapSection}>
+          <p className={styles.sectionLabel}>GPS Track</p>
+          <div className={styles.mapWrap}>
+            <MiniMap track={track} height={340}/>
+          </div>
+        </div>
+
+        <div className={styles.chartSection}>
+          <ElevationProfile
+            track={track}
+            terrain={stage.terrain}
+          />
+        </div>
+
+        <div className={styles.descSection}>
+          <p className={styles.sectionLabel}>Stage Notes</p>
+          <p className={styles.description}>{stage.description}</p>
+        </div>
       </div>
 
       <div className={styles.stats}>
