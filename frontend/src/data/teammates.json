@@ -1,0 +1,128 @@
+[
+  {
+    "id": 1,
+    "name": "GIRARD",
+    "firstName": "Nicolas",
+    "role": "CLM",
+    "nationality": "FR",
+    "photo": "/athletes/ngi.png",
+    "strava_athlete_id": 4772103,
+    "stats": {
+      "km": 603.4,
+      "elevation": 7265,
+      "best_day_elevation": 1657
+    }
+  },
+  {
+    "id": 2,
+    "name": "FIGHIERA",
+    "firstName": "Vincent",
+    "role": "ROL",
+    "nationality": "IT",
+    "photo": "/athletes/vincent-fighiera.png",
+    "strava_athlete_id": 45718511,
+    "stats": {
+      "km": 313.8,
+      "elevation": 2331,
+      "best_day_elevation": null
+    }
+  },
+  {
+    "id": 3,
+    "name": "COURREGES",
+    "firstName": "Théo",
+    "role": "CLIM",
+    "nationality": "BE",
+    "photo": "/athletes/theo-courreges.png",
+    "strava_athlete_id": 5892574,
+    "stats": {
+      "km": 345.3,
+      "elevation": 4260,
+      "best_day_elevation": null
+    }
+  },
+  {
+    "id": 4,
+    "name": "CALVET",
+    "firstName": "Pablo",
+    "role": "CHI",
+    "nationality": "BE",
+    "photo": "/athletes/pablo-calvet.png",
+    "strava_athlete_id": 94746449,
+    "stats": {
+      "km": 659.3,
+      "elevation": 4602,
+      "best_day_elevation": null
+    }
+  },
+  {
+    "id": 5,
+    "name": "CULIERE",
+    "firstName": "François",
+    "role": "ROL",
+    "nationality": "FR",
+    "photo": "/athletes/francois-culiere.png",
+    "strava_athlete_id": 61201781,
+    "stats": {
+      "km": 1259.7,
+      "elevation": 17653,
+      "best_day_elevation": null
+    }
+  },
+  {
+    "id": 6,
+    "name": "LE MEUR",
+    "firstName": "Gaultier",
+    "role": "SPR",
+    "nationality": "DE",
+    "photo": "/athletes/gaultier-lm.png",
+    "strava_athlete_id": 37757276,
+    "stats": {
+      "km": 812.2,
+      "elevation": 7631,
+      "best_day_elevation": null
+    }
+  },
+  {
+    "id": 7,
+    "name": "TOMMASINI",
+    "firstName": "Théo",
+    "role": "GC",
+    "nationality": "GB",
+    "photo": "/athletes/tt.png",
+    "strava_athlete_id": 8576795,
+    "stats": {
+      "km": 1397,
+      "elevation": 28855 ,
+      "best_day_elevation": null
+    }
+  },
+  {
+    "id": 8,
+    "name": "Sebastian",
+    "firstName": "Sebastian",
+    "role": "SPR",
+    "nationality": "US",
+    "photo": "/athletes/tyler-armstrong.jpg",
+    "strava_athlete_id": null,
+    "stats": {
+      "km": null,
+      "elevation": null,
+      "best_day_elevation": null
+    }
+  },
+  {
+    "id": 9,
+    "name": "ERWAN",
+    "firstName": "KAIDOMAR",
+    "role": "GC",
+    "nationality": "CN",
+    "photo": "/athletes/erwan.png",
+    "strava_athlete_id": 50589466,
+    "stats": {
+      "km": 1347.2,
+      "elevation": 20142,
+      "best_day_elevation": null
+    }
+  }
+]
