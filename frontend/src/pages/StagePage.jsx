@@ -1,9 +1,12 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import MiniMap from '../components/MiniMap.jsx'
 import ElevationProfile from '../components/ElevationProfile.jsx'
 import { STAGES } from '../data/stages.js'
 import { useGpxTrack } from '../hooks/useGpxTrack.js'
+import { processTrack } from '../utils/gradients.js'
+import { detectClimbs } from '../utils/detectClimbs.js'
+import ClimbProfile from '../components/ClimbProfile.jsx'
 import styles from './StagePage.module.css'
 
 const TERRAIN_LABEL = {
@@ -17,6 +20,11 @@ export default function StagePage() {
   const stage = STAGES.find((s) => s.id === Number(id))
   const { track, stats, loading: gpxLoading } = useGpxTrack(stage?.gpx)
   const [hoveredIdx, setHoveredIdx] = useState(null)
+
+  const climbs = useMemo(() => {
+    if (!track) return []
+    return detectClimbs(processTrack(track))
+  }, [track])
 
   if (!stage) {
     return (
@@ -86,6 +94,42 @@ export default function StagePage() {
           <p className={styles.sectionLabel}>Stage Notes</p>
           <p className={styles.description}>{stage.description}</p>
         </div>
+
+        {climbs.length > 0 && (
+          <div className={styles.climbsSection}>
+            <p className={styles.sectionLabel}>Climbs</p>
+            <div className={styles.climbsGrid}>
+              {climbs.map((climb, i) => (
+                <div key={i} className={styles.climbCard}>
+                  <div className={styles.climbIndex}>Cat. {climb.avgGrad >= 10 ? 'HC' : climb.avgGrad >= 8 ? '1' : climb.avgGrad >= 6 ? '2' : '3'}</div>
+                  <ClimbProfile points={climb.points} height={72} />
+                  <div className={styles.climbStats}>
+                    <div className={styles.climbStat}>
+                      <span className={styles.climbValue}>{climb.lengthKm}</span>
+                      <span className={styles.climbUnit}>km</span>
+                    </div>
+                    <div className={styles.climbStat}>
+                      <span className={styles.climbValue}>+{climb.gainM}</span>
+                      <span className={styles.climbUnit}>m</span>
+                    </div>
+                    <div className={styles.climbStat}>
+                      <span className={styles.climbValue}>{climb.avgGrad}%</span>
+                      <span className={styles.climbUnit}>avg</span>
+                    </div>
+                    <div className={styles.climbStat}>
+                      <span className={styles.climbValue}>{climb.maxGrad}%</span>
+                      <span className={styles.climbUnit}>max</span>
+                    </div>
+                  </div>
+                  <div className={styles.climbDist}>
+                    @ {climb.startDist.toFixed(1)}–{climb.endDist.toFixed(1)} km
+                    &nbsp;&middot;&nbsp;{climb.startEle}–{climb.endEle} m
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <nav className={styles.stageNav}>

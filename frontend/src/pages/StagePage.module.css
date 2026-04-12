@@ -179,6 +179,75 @@
   max-width: 65ch;
 }
 
+/* ── Climbs section ─────────────────────────────────────────── */
+.climbsSection {
+  border-top: 1px solid var(--border);
+  padding-top: 32px;
+}
+
+.climbsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.climbCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.climbIndex {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--terrain-mountain);
+  background: var(--terrain-mountain-dim);
+  padding: 2px 8px;
+  border-radius: 2px;
+  align-self: flex-start;
+}
+
+.climbStats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 16px;
+}
+
+.climbStat {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+}
+
+.climbValue {
+  font-family: var(--font-mono);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+}
+
+.climbUnit {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+}
+
+.climbDist {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
 .stageNav {
   display: flex;
   justify-content: space-between;
