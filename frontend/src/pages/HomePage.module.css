@@ -111,6 +111,25 @@
   font-size: 13px;
 }
 
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.teammatesLink {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  transition: color 0.15s;
+}
+
+.teammatesLink:hover {
+  color: var(--accent);
+}
+
 @media (max-width: 560px) {
   .grid {
     grid-template-columns: 1fr;

@@ -32,7 +32,10 @@ export default function HomePage() {
         <div className={styles.headerInner}>
           <div className={styles.headerTop}>
             <span className={styles.eyebrow}>Mallorca · {stages.length} Stages</span>
-            <ThemeToggle theme={theme} onToggle={toggle} />
+            <div className={styles.headerActions}>
+              <Link to="/teammates" className={styles.teammatesLink}>Teammates →</Link>
+              <ThemeToggle theme={theme} onToggle={toggle} />
+            </div>
           </div>
           <h1 className={styles.title}>Crown of Calobra</h1>
           <p className={styles.tagline}>
