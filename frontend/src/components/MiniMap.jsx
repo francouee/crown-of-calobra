@@ -1,112 +1,217 @@
-import { useEffect, useRef } from 'react'
-import * as d3 from 'd3'
+import { useEffect, useRef, useMemo, useState } from 'react'
+import L from 'leaflet'
+import { MapContainer, TileLayer, Polyline, useMap } from 'react-leaflet'
+import 'leaflet/dist/leaflet.css'
+import { processTrack, buildColoredSegments, gradientColor } from '../utils/gradients.js'
 
-const TERRAIN_COLOR = {
-  mountain: '#e05252',
-  hilly: '#5094e8',
-  flat: '#50c882',
+const LAYERS = [
+  {
+    id: 'topo',
+    label: 'Topo',
+    url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+    attribution: '&copy; <a href="https://opentopomap.org">OpenTopoMap</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    maxZoom: 17,
+  },
+  {
+    id: 'thunderforest',
+    label: 'Landscape',
+    url: `https://tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=${import.meta.env.VITE_THUNDERFOREST_KEY ?? ''}`,
+    attribution: '&copy; <a href="https://www.thunderforest.com/">Thunderforest</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    maxZoom: 22,
+  },
+  {
+    id: 'carto',
+    label: 'CartoDB',
+    url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
+    maxZoom: 19,
+  },
+]
+
+function FitBounds({ positions }) {
+  const map = useMap()
+  useEffect(() => {
+    if (positions && positions.length > 1) {
+      map.fitBounds(positions, { padding: [16, 16] })
+    }
+  }, [map, positions])
+  return null
 }
 
-export default function MiniMap({ track, terrain, width, height }) {
-  const svgRef = useRef(null)
+/**
+ * Manages the interaction polyline and hover marker entirely imperatively.
+ * This component never causes the parent (or Leaflet track layers) to re-render
+ * on mouse moves — it only updates the single circleMarker via Leaflet API.
+ */
+function InteractiveLayer({ processed, onHover, hoveredIdx }) {
+  const map = useMap()
+  const markerRef = useRef(null)
+  const polylineRef = useRef(null)
 
+  // Create the persistent hover marker and interaction polyline once.
+  // Cleanup on unmount or when `processed` / `onHover` reference changes.
   useEffect(() => {
-    if (!track || track.length < 2) return
-    const el = svgRef.current
-    if (!el) return
+    if (!processed || processed.length < 2) return
 
-    const w = width || el.clientWidth || 400
-    const h = height || el.clientHeight || 140
-    const pad = 12
+    const positions = processed.map((p) => [p.lat, p.lon])
 
-    const lons = track.map((p) => p.lon)
-    const lats = track.map((p) => p.lat)
+    // Persistent hover marker — hidden initially
+    const marker = L.circleMarker([0, 0], {
+      radius: 6,
+      color: '#fff',
+      weight: 2,
+      fillOpacity: 0,
+      opacity: 0,
+      interactive: false,
+      pane: 'markerPane',
+    })
+    marker.bindTooltip('', {
+      permanent: true,
+      direction: 'top',
+      offset: [0, -10],
+      interactive: false,
+    })
+    marker.addTo(map)
+    markerRef.current = marker
 
-    // Keep proportions: fit the track inside the box with equal scale on both axes
-    const lonExtent = [d3.min(lons), d3.max(lons)]
-    const latExtent = [d3.min(lats), d3.max(lats)]
+    // Invisible thick polyline for mouse hit-testing.
+    // opacity: 0.001 (not 0) so the SVG path keeps pointer-events active.
+    const polyline = L.polyline(positions, {
+      color: '#000',
+      weight: 20,
+      opacity: 0.001,
+      interactive: true,
+    })
+    .on('mousemove', (e) => {
+      const { lat, lng: lon } = e.latlng
+      let nearestIdx = 0, minDist = Infinity
+      processed.forEach((p, i) => {
+        const d = (p.lat - lat) ** 2 + (p.lon - lon) ** 2
+        if (d < minDist) { minDist = d; nearestIdx = i }
+      })
+      onHover?.(nearestIdx)
+    })
+    .on('mouseout', () => onHover?.(null))
+    .addTo(map)
+    polylineRef.current = polyline
 
-    const lonRange = lonExtent[1] - lonExtent[0] || 0.01
-    const latRange = latExtent[1] - latExtent[0] || 0.01
+    return () => {
+      marker.remove()
+      polyline.remove()
+    }
+  }, [map, processed, onHover])
 
-    const drawW = w - pad * 2
-    const drawH = h - pad * 2
+  // Update marker position/style imperatively whenever hoveredIdx changes.
+  // This does NOT re-render React — it only calls Leaflet API directly.
+  useEffect(() => {
+    const marker = markerRef.current
+    if (!marker) return
 
-    // Maintain aspect ratio
-    const scale = Math.min(drawW / lonRange, drawH / latRange)
-    const trackW = lonRange * scale
-    const trackH = latRange * scale
-    const offsetX = pad + (drawW - trackW) / 2
-    const offsetY = pad + (drawH - trackH) / 2
+    if (hoveredIdx == null) {
+      marker.setStyle({ fillOpacity: 0, opacity: 0 })
+      marker.closeTooltip()
+      return
+    }
 
-    const xScale = d3
-      .scaleLinear()
-      .domain(lonExtent)
-      .range([offsetX, offsetX + trackW])
+    const pt = processed[hoveredIdx]
+    if (!pt) return
 
-    // Latitude increases northward → invert y axis
-    const yScale = d3
-      .scaleLinear()
-      .domain(latExtent)
-      .range([offsetY + trackH, offsetY])
+    const color = gradientColor(pt.gradient)
+    marker.setLatLng([pt.lat, pt.lon])
+    marker.setStyle({ fillColor: color, fillOpacity: 1, opacity: 1 })
+    marker.setTooltipContent(
+      `<span style="font-family:monospace;font-size:11px">` +
+      `${pt.dist.toFixed(1)} km · ${Math.round(pt.ele)} m · ` +
+      `<span style="color:${color}">${pt.gradient > 0 ? '+' : ''}${pt.gradient.toFixed(1)}%</span>` +
+      `</span>`
+    )
+    marker.openTooltip()
+  }, [hoveredIdx, processed])
 
-    const lineGen = d3
-      .line()
-      .x((p) => xScale(p.lon))
-      .y((p) => yScale(p.lat))
-      .curve(d3.curveCatmullRom.alpha(0.5))
+  return null
+}
 
-    const svg = d3.select(el)
-    svg.selectAll('*').remove()
+export default function MiniMap({ track, height, hoveredIdx, onHover }) {
+  const [activeLayerId, setActiveLayerId] = useState('topo')
+  const activeLayer = LAYERS.find(l => l.id === activeLayerId)
+  const processed = useMemo(
+    () => (track && track.length >= 2 ? processTrack(track) : []),
+    [track],
+  )
+  const segments = useMemo(() => buildColoredSegments(processed), [processed])
+  const allPositions = useMemo(() => processed.map((p) => [p.lat, p.lon]), [processed])
 
-    // Track path shadow/glow
-    svg
-      .append('path')
-      .datum(track)
-      .attr('d', lineGen)
-      .attr('fill', 'none')
-      .attr('stroke', TERRAIN_COLOR[terrain] || '#e8c84a')
-      .attr('stroke-width', 4)
-      .attr('stroke-opacity', 0.15)
-      .attr('stroke-linecap', 'round')
-      .attr('stroke-linejoin', 'round')
+  if (!track || track.length < 2) {
+    return <div style={{ width: '100%', height: height || 280, background: '#111' }} />
+  }
 
-    // Track path main
-    svg
-      .append('path')
-      .datum(track)
-      .attr('d', lineGen)
-      .attr('fill', 'none')
-      .attr('stroke', TERRAIN_COLOR[terrain] || '#e8c84a')
-      .attr('stroke-width', 1.5)
-      .attr('stroke-opacity', 0.9)
-      .attr('stroke-linecap', 'round')
-      .attr('stroke-linejoin', 'round')
-
-    // Start dot
-    const first = track[0]
-    svg
-      .append('circle')
-      .attr('cx', xScale(first.lon))
-      .attr('cy', yScale(first.lat))
-      .attr('r', 3)
-      .attr('fill', '#f0f0f0')
-      .attr('opacity', 0.8)
-
-    // Finish dot
-    const last = track[track.length - 1]
-    svg
-      .append('circle')
-      .attr('cx', xScale(last.lon))
-      .attr('cy', yScale(last.lat))
-      .attr('r', 3)
-      .attr('fill', TERRAIN_COLOR[terrain] || '#e8c84a')
-  }, [track, terrain, width, height])
+  const first = allPositions[0]
 
   return (
-    <svg
-      ref={svgRef}
-      style={{ width: '100%', height: '100%', display: 'block' }}
-    />
+    <div style={{ position: 'relative', width: '100%', height: height || 280 }}>
+      {/* Layer switcher — sit on top of the map, stop clicks reaching Leaflet */}
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{
+          position: 'absolute', top: 10, right: 10,
+          zIndex: 1000,
+          display: 'flex', gap: 4,
+          background: 'rgba(255,255,255,0.92)',
+          borderRadius: 6,
+          padding: '3px 5px',
+          boxShadow: '0 1px 4px rgba(0,0,0,0.3)',
+          fontSize: 11,
+          fontFamily: 'sans-serif',
+        }}
+      >
+        {LAYERS.map(l => (
+          <button
+            key={l.id}
+            onClick={() => setActiveLayerId(l.id)}
+            style={{
+              border: 'none', cursor: 'pointer', borderRadius: 4,
+              padding: '2px 7px',
+              background: l.id === activeLayerId ? '#059669' : 'transparent',
+              color: l.id === activeLayerId ? '#fff' : '#333',
+              fontWeight: l.id === activeLayerId ? 600 : 400,
+            }}
+          >
+            {l.label}
+          </button>
+        ))}
+      </div>
+
+      <MapContainer
+        center={first}
+        zoom={12}
+        style={{ width: '100%', height: '100%' }}
+        scrollWheelZoom={true}
+        zoomControl={true}
+        attributionControl={true}
+      >
+      <TileLayer
+        key={activeLayer.id}
+        url={activeLayer.url}
+        attribution={activeLayer.attribution}
+        maxZoom={activeLayer.maxZoom}
+      />
+      <FitBounds positions={allPositions} />
+
+      {/* Downhill first so uphill segments paint on top at back-and-forth sections */}
+      {[...segments.filter(s => !s.uphill), ...segments.filter(s => s.uphill)].map((seg, i) => (
+        <Polyline
+          key={i}
+          positions={seg.points}
+          pathOptions={{ color: seg.color, weight: 4, opacity: 0.9 }}
+        />
+      ))}
+
+      <InteractiveLayer
+        processed={processed}
+        onHover={onHover}
+        hoveredIdx={hoveredIdx}
+      />
+    </MapContainer>
+    </div>
   )
 }

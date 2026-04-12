@@ -8,10 +8,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.21.0",
-    "d3": "^7.9.0"
+    "@tmcw/togeojson": "^7.1.2",
+    "d3": "^7.9.0",
+    "leaflet": "^1.9.4",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "react-leaflet": "^5.0.0",
+    "react-router-dom": "^6.21.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",

@@ -1,4 +1,5 @@
 import MiniMap from '../components/MiniMap.jsx'
+import { useGpxTrack } from '../hooks/useGpxTrack.js'
 import styles from './StageCard.module.css'
 
 const TERRAIN_LABEL = {
@@ -8,6 +9,8 @@ const TERRAIN_LABEL = {
 }
 
 export default function StageCard({ stage }) {
+  const { track } = useGpxTrack(stage.gpx)
+
   return (
     <article className={`${styles.card} ${styles[stage.terrain]}`}>
       <div className={styles.top}>
@@ -28,7 +31,7 @@ export default function StageCard({ stage }) {
       </div>
 
       <div className={styles.mapArea}>
-        <MiniMap track={stage.track} terrain={stage.terrain} />
+        <MiniMap track={track} />
       </div>
 
       <div className={styles.stats}>

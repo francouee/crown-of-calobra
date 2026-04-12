@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import MiniMap from '../components/MiniMap.jsx'
 import ElevationProfile from '../components/ElevationProfile.jsx'
+import { STAGES } from '../data/stages.js'
+import { useGpxTrack } from '../hooks/useGpxTrack.js'
 import styles from './StagePage.module.css'
 
 const TERRAIN_LABEL = {
@@ -12,46 +14,21 @@ const TERRAIN_LABEL = {
 
 export default function StagePage() {
   const { id } = useParams()
-  const [stage, setStage] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const stage = STAGES.find((s) => s.id === Number(id))
+  const { track, loading: gpxLoading } = useGpxTrack(stage?.gpx)
+  const [hoveredIdx, setHoveredIdx] = useState(null)
 
-  useEffect(() => {
-    setLoading(true)
-    fetch(`/api/stages/${id}`)
-      .then((r) => {
-        if (!r.ok) throw new Error('Stage not found')
-        return r.json()
-      })
-      .then((data) => {
-        setStage(data)
-        setLoading(false)
-      })
-      .catch((e) => {
-        setError(e.message)
-        setLoading(false)
-      })
-  }, [id])
-
-  if (loading) {
+  if (!stage) {
     return (
       <div className={styles.page}>
-        <p className={styles.status}>Loading…</p>
-      </div>
-    )
-  }
-
-  if (error || !stage) {
-    return (
-      <div className={styles.page}>
-        <p className={styles.statusError}>{error || 'Stage not found'}</p>
+        <p className={styles.statusError}>Stage not found</p>
         <Link to="/" className={styles.backBtn}>← Back</Link>
       </div>
     )
   }
 
-  const maxEle = Math.max(...stage.track.map((p) => p.ele))
-  const minEle = Math.min(...stage.track.map((p) => p.ele))
+  const maxEle = track ? Math.max(...track.map((p) => p.ele)) : '—'
+  const minEle = track ? Math.min(...track.map((p) => p.ele)) : '—'
 
   return (
     <div className={styles.page}>
@@ -98,15 +75,18 @@ export default function StagePage() {
         <div className={styles.mapSection}>
           <p className={styles.sectionLabel}>GPS Track</p>
           <div className={styles.mapWrap}>
-            <MiniMap track={stage.track} terrain={stage.terrain} height={340} />
+            {gpxLoading
+              ? <div className={styles.status}>Loading map…</div>
+              : <MiniMap track={track} height={340} hoveredIdx={hoveredIdx} onHover={setHoveredIdx} />}
           </div>
         </div>
 
         <div className={styles.chartSection}>
           <ElevationProfile
-            track={stage.track}
-            distanceKm={stage.distance_km}
+            track={track}
             terrain={stage.terrain}
+            hoveredIdx={hoveredIdx}
+            onHover={setHoveredIdx}
           />
         </div>
 
