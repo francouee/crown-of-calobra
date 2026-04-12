@@ -13,7 +13,9 @@ export const STAGES = [
       "the intermediate sprints through Inca and Muro. The peloton crosses the " +
       "Raiguer plateau with constant crosswind threat before the final coastal " +
       "run-in. A perfect stage for the sprinters before the mountains take over.",
-    gpx: "/gpx/Alcudia_Col_de_la_Creueta.gpx",
+    gpx: "/gpx/stage-1.gpx",
+    strava_route_id: "3344944257020996360",
+    strava_url: "https://www.strava.com/routes/3344944257020996360",
   },
   {
     id: 2,
@@ -32,6 +34,8 @@ export const STAGES = [
       "leads to the enchanting orange-grove valley. Expect the GC contenders " +
       "to throw down moves on the upper slopes.",
     gpx: "/gpx/stage-2.gpx",
+    strava_route_id: null,
+    strava_url: null,
   },
   {
     id: 3,
@@ -49,6 +53,8 @@ export const STAGES = [
       "up to the Coll dels Reis summit at 682 m, averaging 7.1% over 9.4 km. " +
       "The finish line crowns a true king of the mountains.",
     gpx: "/gpx/stage-3.gpx",
+    strava_route_id: null,
+    strava_url: null,
   },
   {
     id: 4,
@@ -67,6 +73,8 @@ export const STAGES = [
       "leads into Palma's broad boulevard finish. Attackers will relish the " +
       "short punchy rises around Deià.",
     gpx: "/gpx/stage-4.gpx",
+    strava_route_id: null,
+    strava_url: null,
   },
   {
     id: 5,
@@ -85,5 +93,7 @@ export const STAGES = [
       "will fight for every second on the last ascent while sprinters try " +
       "in vain to hold the wheel.",
     gpx: "/gpx/stage-5.gpx",
+    strava_route_id: null,
+    strava_url: null,
   },
 ]

@@ -1,8 +1,8 @@
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import MiniMap from '../components/MiniMap.jsx'
 import ElevationProfile from '../components/ElevationProfile.jsx'
-import ThemeToggle from '../components/ThemeToggle.jsx'
+import StravaRouteSection from '../components/StravaRouteSection.jsx'
 import { STAGES } from '../data/stages.js'
 import { useGpxTrack } from '../hooks/useGpxTrack.js'
 import { processTrack } from '../utils/gradients.js'
@@ -100,6 +100,8 @@ export default function StagePage() {
           <p className={styles.sectionLabel}>Stage Notes</p>
           <p className={styles.description}>{stage.description}</p>
         </div>
+
+        <StravaRouteSection stage={stage} />
 
         {climbs.length > 0 && (
           <div className={styles.climbsSection}>

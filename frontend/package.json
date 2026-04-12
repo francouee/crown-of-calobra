@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "fetch-strava": "node ../scripts/fetch-strava.js"
   },
   "dependencies": {
     "@tmcw/togeojson": "^7.1.2",
