@@ -8,7 +8,6 @@
   font-family: var(--font-sans);
   display: flex;
   flex-direction: column;
-  gap: 0;
 }
 
 .topBar {
@@ -42,11 +41,9 @@
 }
 
 .crownIcon {
-  font-size: 12px;
-  font-variant: small-caps;
+  font-size: 20px;
   color: #8b6914;
-  letter-spacing: 0.1em;
-  padding-top: 4px;
+  line-height: 1;
 }
 
 .flag {

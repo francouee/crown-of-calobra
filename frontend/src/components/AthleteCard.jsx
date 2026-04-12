@@ -1,13 +1,16 @@
 import styles from './AthleteCard.module.css'
 
 function countryFlag(code) {
-  return [...code.toUpperCase()].map(c =>
-    String.fromCodePoint(0x1F1E6 + c.charCodeAt(0) - 65)
-  ).join('')
+  if (!code || code.length !== 2) return ''
+  return [...code.toUpperCase()].map(c => {
+    const cp = c.charCodeAt(0) - 65
+    if (cp < 0 || cp > 25) return ''
+    return String.fromCodePoint(0x1F1E6 + cp)
+  }).join('')
 }
 
 export default function AthleteCard({ athlete, score }) {
-  const { name, firstName, role, nationality, photo, stats } = athlete
+  const { name, role, nationality, photo, stats } = athlete
   const { km, elevation, best_day_elevation } = stats ?? {}
 
   const kmText = km != null ? km.toLocaleString() : '—'
@@ -32,7 +35,7 @@ export default function AthleteCard({ athlete, score }) {
         {photo ? (
           <img
             src={photo}
-            alt={name}
+            alt={name ?? ''}
             className={styles.photo}
             onError={e => { e.currentTarget.style.display = 'none' }}
           />
