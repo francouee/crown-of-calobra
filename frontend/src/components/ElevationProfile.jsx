@@ -3,14 +3,14 @@ import * as d3 from 'd3'
 import { processTrack, gradientColor, GRADIENT_SCALE } from '../utils/gradients.js'
 import styles from './ElevationProfile.module.css'
 
-export default function ElevationProfile({ track, terrain, hoveredIdx, onHover }) {
+export default function ElevationProfile({ track, terrain, hoveredIdx, onHover, zoomRange, onZoom }) {
   const svgRef = useRef(null)
   const crosshairRef = useRef(null)
   const processedRef = useRef(null)
   const scalesRef = useRef(null)
   const [tooltip, setTooltip] = useState(null)
 
-  // Main draw effect — redraws when track/terrain changes
+  // Main draw effect — redraws when track/terrain/zoomRange changes
   useEffect(() => {
     if (!track || track.length < 2) return
     const el = svgRef.current
@@ -20,16 +20,22 @@ export default function ElevationProfile({ track, terrain, hoveredIdx, onHover }
     processedRef.current = data
     const totalDist = data[data.length - 1].dist
 
+    // Zoom domain — use selection or full range
+    const xMin = zoomRange ? zoomRange.distMin : 0
+    const xMax = zoomRange ? zoomRange.distMax : totalDist
+    const displayData = data.filter(p => p.dist >= xMin && p.dist <= xMax)
+    if (displayData.length < 2) return
+
     const totalW = el.clientWidth || 700
     const totalH = el.clientHeight || 180
     const margin = { top: 16, right: 16, bottom: 32, left: 44 }
     const w = totalW - margin.left - margin.right
     const h = totalH - margin.top - margin.bottom
 
-    const xScale = d3.scaleLinear().domain([0, totalDist]).range([0, w])
+    const xScale = d3.scaleLinear().domain([xMin, xMax]).range([0, w])
     const yScale = d3
       .scaleLinear()
-      .domain([0, d3.max(data, (d) => d.ele) * 1.1])
+      .domain([0, d3.max(displayData, (d) => d.ele) * 1.1])
       .range([h, 0])
       .nice()
 
@@ -51,7 +57,7 @@ export default function ElevationProfile({ track, terrain, hoveredIdx, onHover }
       .append('clipPath')
       .attr('id', clipId)
       .append('path')
-      .datum(data)
+      .datum(displayData)
       .attr('d', areaPath)
 
     const g = svg.append('g').attr('transform', `translate(${margin.left},${margin.top})`)
@@ -74,12 +80,12 @@ export default function ElevationProfile({ track, terrain, hoveredIdx, onHover }
       .attr('stroke-width', 1)
 
     // Gradient-colored bands clipped to elevation area
-    for (let i = 0; i < data.length - 1; i++) {
-      const color = gradientColor(data[i + 1].gradient)
+    for (let i = 0; i < displayData.length - 1; i++) {
+      const color = gradientColor(displayData[i + 1].gradient)
       g.append('rect')
-        .attr('x', xScale(data[i].dist))
+        .attr('x', xScale(displayData[i].dist))
         .attr('y', 0)
-        .attr('width', xScale(data[i + 1].dist) - xScale(data[i].dist))
+        .attr('width', xScale(displayData[i + 1].dist) - xScale(displayData[i].dist))
         .attr('height', h)
         .attr('fill', color)
         .attr('fill-opacity', 0.55)
@@ -87,13 +93,13 @@ export default function ElevationProfile({ track, terrain, hoveredIdx, onHover }
     }
 
     // Colored line segments on top
-    for (let i = 0; i < data.length - 1; i++) {
+    for (let i = 0; i < displayData.length - 1; i++) {
       g.append('line')
-        .attr('x1', xScale(data[i].dist))
-        .attr('y1', yScale(data[i].ele))
-        .attr('x2', xScale(data[i + 1].dist))
-        .attr('y2', yScale(data[i + 1].ele))
-        .attr('stroke', gradientColor(data[i + 1].gradient))
+        .attr('x1', xScale(displayData[i].dist))
+        .attr('y1', yScale(displayData[i].ele))
+        .attr('x2', xScale(displayData[i + 1].dist))
+        .attr('y2', yScale(displayData[i + 1].ele))
+        .attr('stroke', gradientColor(displayData[i + 1].gradient))
         .attr('stroke-width', 2)
         .attr('stroke-linecap', 'round')
     }
@@ -150,25 +156,43 @@ export default function ElevationProfile({ track, terrain, hoveredIdx, onHover }
 
     crosshairRef.current = chGroup.node()
 
-    // Invisible interaction overlay
-    g.append('rect')
-      .attr('width', w).attr('height', h)
-      .attr('fill', 'none')
-      .attr('pointer-events', 'all')
-      .on('mousemove', function (event) {
+    // Brush for zoom selection — also handles hover via brush overlay events
+    const brushGroup = g.append('g').attr('class', 'brush')
+    const brush = d3.brushX()
+      .extent([[0, 0], [w, h]])
+      .on('end', (event) => {
+        if (!event.selection) return
+        const [x0, x1] = event.selection
+        const dMin = xScale.invert(x0)
+        const dMax = xScale.invert(x1)
+        // Clear the brush selection visual, then zoom
+        brushGroup.call(brush.move, null)
+        if (dMax - dMin > 0.1) onZoom?.({ distMin: dMin, distMax: dMax })
+      })
+
+    brushGroup.call(brush)
+
+    // Style brush selection rectangle
+    brushGroup.select('.selection')
+      .attr('fill', 'rgba(255,255,255,0.15)')
+      .attr('stroke', 'rgba(255,255,255,0.4)')
+
+    // Attach hover to the brush overlay so crosshair works while brushing
+    brushGroup.select('.overlay')
+      .on('mousemove.hover', function (event) {
         const [mx] = d3.pointer(event)
         const distAtMouse = xScale.invert(Math.max(0, Math.min(mx, w)))
         let nearestIdx = 0, minDiff = Infinity
-        data.forEach((pt, i) => {
+        // Search within full data – correct idx even when zoomed
+        processedRef.current.forEach((pt, i) => {
           const diff = Math.abs(pt.dist - distAtMouse)
           if (diff < minDiff) { minDiff = diff; nearestIdx = i }
         })
         onHover?.(nearestIdx)
       })
-      .on('mouseleave', () => {
-        onHover?.(null)
-      })
-  }, [track, terrain, onHover])
+      .on('mouseleave.hover', () => onHover?.(null))
+      .on('dblclick.reset', () => onZoom?.(null))
+  }, [track, terrain, onHover, onZoom, zoomRange])
 
   // Crosshair + tooltip update — reacts to hoveredIdx from both chart and map
   useEffect(() => {
@@ -198,7 +222,17 @@ export default function ElevationProfile({ track, terrain, hoveredIdx, onHover }
 
   return (
     <div className={styles.wrap}>
-      <p className={styles.label}>Elevation Profile</p>
+      <div className={styles.labelRow}>
+        <p className={styles.label}>Elevation Profile</p>
+        {zoomRange && (
+          <button className={styles.resetBtn} onClick={() => onZoom?.(null)}>
+            ↩ Reset zoom
+          </button>
+        )}
+        {!zoomRange && (
+          <span className={styles.zoomHint}>drag to zoom · dbl-click to reset</span>
+        )}
+      </div>
       <div className={styles.chartContainer}>
         <svg ref={svgRef} className={styles.svg} />
         {tooltip && (

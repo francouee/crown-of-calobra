@@ -2,7 +2,28 @@ import { useEffect, useRef, useMemo, useState } from 'react'
 import L from 'leaflet'
 import { MapContainer, TileLayer, Polyline, useMap } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
-import { processTrack, buildColoredSegments, gradientColor } from '../utils/gradients.js'
+import { processTrack, gradientColor } from '../utils/gradients.js'
+
+/**
+ * Flies the map to the track slice corresponding to the current zoomRange.
+ * Reacts to zoomRange changes without re-mounting the map.
+ */
+function MapZoomer({ processed, zoomRange }) {
+  const map = useMap()
+  useEffect(() => {
+    if (!processed?.length) return
+    if (!zoomRange) {
+      const positions = processed.map(p => [p.lat, p.lon])
+      map.fitBounds(positions, { padding: [16, 16], animate: true })
+      return
+    }
+    const { distMin, distMax } = zoomRange
+    const slice = processed.filter(p => p.dist >= distMin && p.dist <= distMax)
+    if (slice.length < 2) return
+    map.fitBounds(slice.map(p => [p.lat, p.lon]), { padding: [24, 24], animate: true })
+  }, [zoomRange, processed, map])
+  return null
+}
 
 const LAYERS = [
   {
@@ -138,14 +159,13 @@ function InteractiveLayer({ processed, onHover, hoveredIdx }) {
   return null
 }
 
-export default function MiniMap({ track, height, hoveredIdx, onHover }) {
+export default function MiniMap({ track, height, hoveredIdx, onHover, zoomRange }) {
   const [activeLayerId, setActiveLayerId] = useState('cyclosm')
   const activeLayer = LAYERS.find(l => l.id === activeLayerId)
   const processed = useMemo(
     () => (track && track.length >= 2 ? processTrack(track) : []),
     [track],
   )
-  const segments = useMemo(() => buildColoredSegments(processed), [processed])
   const allPositions = useMemo(() => processed.map((p) => [p.lat, p.lon]), [processed])
 
   if (!track || track.length < 2) {
@@ -204,20 +224,18 @@ export default function MiniMap({ track, height, hoveredIdx, onHover }) {
       />
       <FitBounds positions={allPositions} />
 
-      {/* Downhill first so uphill segments paint on top at back-and-forth sections */}
-      {[...segments.filter(s => !s.uphill), ...segments.filter(s => s.uphill)].map((seg, i) => (
-        <Polyline
-          key={i}
-          positions={seg.points}
-          pathOptions={{ color: seg.color, weight: 4, opacity: 0.9 }}
-        />
-      ))}
+      {/* Single unified track line using darkest green from elevation palette */}
+      <Polyline
+        positions={allPositions}
+        pathOptions={{ color: '#1a7258', weight: 3, opacity: 0.7 }}
+      />
 
       <InteractiveLayer
         processed={processed}
         onHover={onHover}
         hoveredIdx={hoveredIdx}
       />
+      <MapZoomer processed={processed} zoomRange={zoomRange} />
     </MapContainer>
     </div>
   )

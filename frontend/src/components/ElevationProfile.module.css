@@ -2,13 +2,40 @@
   width: 100%;
 }
 
+.labelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
 .label {
   font-family: var(--font-mono);
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.12em;
   color: var(--text-secondary);
-  margin-bottom: 12px;
+}
+
+.resetBtn {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  background: none;
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+  padding: 2px 8px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.resetBtn:hover { opacity: 0.7; }
+
+.zoomHint {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
 }
 
 .chartContainer {

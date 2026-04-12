@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import MiniMap from '../components/MiniMap.jsx'
 import ElevationProfile from '../components/ElevationProfile.jsx'
@@ -9,6 +9,7 @@ import { processTrack } from '../utils/gradients.js'
 import { detectClimbs } from '../utils/detectClimbs.js'
 import ClimbProfile from '../components/ClimbProfile.jsx'
 import { useThemeContext } from '../App.jsx'
+import ThemeToggle from '../components/ThemeToggle.jsx'
 import styles from './StagePage.module.css'
 
 const TERRAIN_LABEL = {
@@ -22,6 +23,7 @@ export default function StagePage() {
   const stage = STAGES.find((s) => s.id === Number(id))
   const { track, stats, loading: gpxLoading } = useGpxTrack(stage?.gpx)
   const [hoveredIdx, setHoveredIdx] = useState(null)
+  const [zoomRange, setZoomRange] = useState(null)
   const { theme, toggle } = useThemeContext()
 
   const climbs = useMemo(() => {
@@ -83,7 +85,7 @@ export default function StagePage() {
           <div className={styles.mapWrap}>
             {gpxLoading
               ? <div className={styles.status}>Loading map…</div>
-              : <MiniMap track={track} height={340} hoveredIdx={hoveredIdx} onHover={setHoveredIdx} />}
+              : <MiniMap track={track} height={340} hoveredIdx={hoveredIdx} onHover={setHoveredIdx} zoomRange={zoomRange} />}
           </div>
         </div>
 
@@ -93,6 +95,8 @@ export default function StagePage() {
             terrain={stage.terrain}
             hoveredIdx={hoveredIdx}
             onHover={setHoveredIdx}
+            zoomRange={zoomRange}
+            onZoom={setZoomRange}
           />
         </div>
 
