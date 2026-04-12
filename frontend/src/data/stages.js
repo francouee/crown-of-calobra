@@ -1,99 +1,70 @@
-export const STAGES = [
-  {
-    id: 1,
-    name: "Bay of Palma",
-    subtitle: "Stage 1 · Flat opener",
-    terrain: "flat",
-    start: "Palma",
-    finish: "Port d'Alcúdia",
-    description:
-      "The race kicks off with a fast, rolling stage from Palma de Mallorca " +
-      "across the island's fertile plains to the bay of Alcúdia. Expect a " +
-      "chaotic bunch sprint finish on the seafront promenade after teams contest " +
-      "the intermediate sprints through Inca and Muro. The peloton crosses the " +
-      "Raiguer plateau with constant crosswind threat before the final coastal " +
-      "run-in. A perfect stage for the sprinters before the mountains take over.",
-    gpx: "/gpx/stage-1.gpx",
-    strava_route_id: "3344944257020996360",
-    strava_url: "https://www.strava.com/routes/3344944257020996360",
+import stravaRoutes from './strava-routes.json'
+
+// Terrain is inferred from elevation gain per km of distance.
+// Thresholds (m gained per km ridden):
+//   mountain  ≥ 12 m/km
+//   hilly      8–12 m/km
+//   flat      < 8 m/km
+function inferTerrain(elevationGainM, distanceM) {
+  const gainPerKm = elevationGainM / (distanceM / 1000)
+  if (gainPerKm >= 12) return 'mountain'
+  if (gainPerKm >= 8) return 'hilly'
+  return 'flat'
+}
+
+// Manual metadata — only fields that cannot be derived from Strava/GPX.
+// Add start, finish, and description for each stage here.
+const STAGE_META = {
+  1: {
+    start: '',
+    finish: '',
+    description: '',
   },
-  {
-    id: 2,
-    name: "Tramuntana Traverse",
-    subtitle: "Stage 2 · Hilly",
-    terrain: "hilly",
-    start: "Alcúdia",
-    finish: "Sóller",
-    description:
-      "This hilly stage links the north-east coast to the Sóller valley, " +
-      "crossing the spine of the Serra de Tramuntana twice. The peloton " +
-      "departs from Alcúdia and immediately hits the Coll de sa Bataia before " +
-      "a fast descent to Pollença. The race then climbs the iconic Puig de " +
-      "Maria road and rolls through the ancient villages of Campanet and " +
-      "Caimari. A final lung-busting ascent over the Coll de Sóller (496 m) " +
-      "leads to the enchanting orange-grove valley. Expect the GC contenders " +
-      "to throw down moves on the upper slopes.",
-    gpx: "/gpx/stage-2.gpx",
-    strava_route_id: null,
-    strava_url: null,
+  2: {
+    start: 'Alcúdia',
+    finish: 'Formentor',
+    description: '',
   },
-  {
-    id: 3,
-    name: "Crown of Calobra",
-    subtitle: "Stage 3 · Queen stage",
-    terrain: "mountain",
-    start: "Sóller",
-    finish: "Coll dels Reis",
-    description:
-      "The queen stage. From Sóller the race descends to Port de Sóller and " +
-      "follows the rugged cliff coastline north to the foot of the most " +
-      "spectacular road in cycling. The Sa Calobra ascent drops 9.4 km to " +
-      "sea level through 26 hairpins including the legendary Nus de sa Corbata " +
-      "— a loop where the road passes under itself. Riders then grind back " +
-      "up to the Coll dels Reis summit at 682 m, averaging 7.1% over 9.4 km. " +
-      "The finish line crowns a true king of the mountains.",
-    gpx: "/gpx/stage-3.gpx",
-    strava_route_id: null,
-    strava_url: null,
+  3: {
+    start: '',
+    finish: '',
+    description: '',
   },
-  {
-    id: 4,
-    name: "Serra Classic",
-    subtitle: "Stage 4 · Hilly",
-    terrain: "hilly",
-    start: "Sóller",
-    finish: "Palma",
-    description:
-      "A classic Tramuntana stage that strings together the jewels of the " +
-      "mountain range. From Sóller the route climbs past the stone terrace " +
-      "groves of Deià — a village beloved by poets and painters alike — " +
-      "before the summit at Mirador de ses Barques (270 m). The descent to " +
-      "Valldemossa winds through holm-oak forest above the sparkling " +
-      "Mediterranean. A final lively sequence through Esporles and Puigpunyent " +
-      "leads into Palma's broad boulevard finish. Attackers will relish the " +
-      "short punchy rises around Deià.",
-    gpx: "/gpx/stage-4.gpx",
-    strava_route_id: null,
-    strava_url: null,
+  4: {
+    start: '',
+    finish: '',
+    description: '',
   },
-  {
-    id: 5,
-    name: "Pollença Hills",
-    subtitle: "Stage 5 · Hilly",
-    terrain: "hilly",
-    start: "Alcúdia",
-    finish: "Alcúdia",
-    description:
-      "The final stage loops from Alcúdia through the hill towns above the " +
-      "Pollença bay before swinging inland past Campanet and Caimari. The " +
-      "circuit features four categorised climbs including the Puig de Maria " +
-      "chapel road (320 m) and the steep Coll de la Batalla (290 m). " +
-      "The race returns to the Alcúdia seafront for a technical town-centre " +
-      "finish after a short punchy climb on the final kilometre. GC riders " +
-      "will fight for every second on the last ascent while sprinters try " +
-      "in vain to hold the wheel.",
-    gpx: "/gpx/stage-5.gpx",
-    strava_route_id: null,
-    strava_url: null,
+  5: {
+    start: '',
+    finish: '',
+    description: '',
   },
-]
+  6: {
+    start: '',
+    finish: '',
+    description: '',
+  },
+}
+
+export const STAGES = Object.entries(stravaRoutes)
+  .sort(([a], [b]) => Number(a) - Number(b))
+  .map(([key, route]) => {
+    const id = Number(key)
+    const meta = STAGE_META[id] ?? {}
+    const terrain = inferTerrain(route.elevation_gain, route.distance)
+    return {
+      id,
+      name: route.name,
+      subtitle: `Stage ${id} · ${terrain.charAt(0).toUpperCase() + terrain.slice(1)}`,
+      terrain,
+      start: meta.start ?? '',
+      finish: meta.finish ?? '',
+      description: meta.description ?? '',
+      gpx: `/gpx/stage-${id}.gpx`,
+      strava_route_id: route.route_id ?? null,
+      strava_url: route.route_id
+        ? `https://www.strava.com/routes/${route.route_id}`
+        : null,
+    }
+  })

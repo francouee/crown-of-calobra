@@ -48,7 +48,7 @@ export default function StagePage() {
       <nav className={styles.nav}>
         <Link to="/" className={styles.backBtn}>← All Stages</Link>
         <div className={styles.navRight}>
-          <span className={styles.navStage}>Stage {stage.id} / 5</span>
+          <span className={styles.navStage}>Stage {stage.id} / {STAGES.length}</span>
           <ThemeToggle theme={theme} onToggle={toggle} />
         </div>
       </nav>
@@ -150,7 +150,7 @@ export default function StagePage() {
             ← Stage {stage.id - 1}
           </Link>
         )}
-        {stage.id < 5 && (
+        {stage.id < STAGES.length && (
           <Link to={`/stage/${stage.id + 1}`} className={`${styles.stageNavBtn} ${styles.stageNavNext}`}>
             Stage {stage.id + 1} →
           </Link>

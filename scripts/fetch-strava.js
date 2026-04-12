@@ -138,6 +138,7 @@ async function main() {
 
     const route = await fetchRouteMeta(routeId, token)
     meta[stageNum] = {
+      route_id: routeId,
       name: route.name,
       description: route.description || '',
       distance: route.distance,

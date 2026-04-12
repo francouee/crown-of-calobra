@@ -2,29 +2,22 @@ import { Link } from 'react-router-dom'
 import StageCard from '../components/StageCard.jsx'
 import ThemeToggle from '../components/ThemeToggle.jsx'
 import { STAGES } from '../data/stages.js'
-import { useGpxTrack } from '../hooks/useGpxTrack.js'
+import stravaRoutes from '../data/strava-routes.json'
 import { useThemeContext } from '../App.jsx'
 import styles from './HomePage.module.css'
+
+// Derive totals from the Strava metadata (already fetched, no GPX loading needed)
+const stravaValues = Object.values(stravaRoutes)
+const totalDistance = Math.round(
+  stravaValues.reduce((acc, r) => acc + r.distance, 0) / 1000,
+)
+const totalElevation = Math.round(
+  stravaValues.reduce((acc, r) => acc + r.elevation_gain, 0),
+)
 
 export default function HomePage() {
   const stages = STAGES
   const { theme, toggle } = useThemeContext()
-
-  // Load stats from each GPX (browser caches the fetches; StageCard reuses them)
-  const { stats: s1 } = useGpxTrack(stages[0]?.gpx)
-  const { stats: s2 } = useGpxTrack(stages[1]?.gpx)
-  const { stats: s3 } = useGpxTrack(stages[2]?.gpx)
-  const { stats: s4 } = useGpxTrack(stages[3]?.gpx)
-  const { stats: s5 } = useGpxTrack(stages[4]?.gpx)
-
-  const allStats = [s1, s2, s3, s4, s5]
-  const allLoaded = allStats.every(Boolean)
-  const totalDistance = allLoaded
-    ? allStats.reduce((acc, s) => acc + s.distanceKm, 0).toFixed(0)
-    : null
-  const totalElevation = allLoaded
-    ? allStats.reduce((acc, s) => acc + s.elevationGainM, 0)
-    : null
 
   return (
     <div className={styles.page}>
@@ -43,14 +36,12 @@ export default function HomePage() {
           </p>
           <div className={styles.totals}>
             <div className={styles.totalStat}>
-              <span className={styles.totalValue}>{totalDistance ?? '—'}</span>
+              <span className={styles.totalValue}>{totalDistance}</span>
               <span className={styles.totalLabel}>km total</span>
             </div>
             <div className={styles.divider} />
             <div className={styles.totalStat}>
-              <span className={styles.totalValue}>
-                {totalElevation != null ? totalElevation.toLocaleString() : '—'}
-              </span>
+              <span className={styles.totalValue}>{totalElevation.toLocaleString()}</span>
               <span className={styles.totalLabel}>m elevation</span>
             </div>
           </div>

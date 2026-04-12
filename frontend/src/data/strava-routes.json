@@ -1,5 +1,6 @@
 {
   "1": {
+    "route_id": "3344944257020996360",
     "name": "Puig Major",
     "description": "",
     "distance": 151390.76261219438,
@@ -7,6 +8,7 @@
     "updated_at": "2025-04-09T06:54:18Z"
   },
   "2": {
+    "route_id": "3477722180890340586",
     "name": "Alcudia --> Formentor",
     "description": "",
     "distance": 63690.871427098595,
@@ -14,6 +16,7 @@
     "updated_at": "2026-04-12T18:26:19Z"
   },
   "3": {
+    "route_id": "3478463895839646202",
     "name": "étape plaine Majorque 2026",
     "description": "",
     "distance": 151315.4356027481,
@@ -21,6 +24,7 @@
     "updated_at": "2026-04-12T18:40:55Z"
   },
   "4": {
+    "route_id": "3478419423307930224",
     "name": "Mallorca - Short",
     "description": "",
     "distance": 76206.40457396347,
@@ -28,6 +32,7 @@
     "updated_at": "2026-04-12T15:42:10Z"
   },
   "5": {
+    "route_id": "3478416891530131894",
     "name": "Mallorca - Hard",
     "description": "",
     "distance": 191466.1645611936,
@@ -35,6 +40,7 @@
     "updated_at": "2026-04-12T15:46:39Z"
   },
   "6": {
+    "route_id": "3478423919759871600",
     "name": "Mallorca - Mid 2",
     "description": "",
     "distance": 143895.2089677869,
@@ -42,3 +48,4 @@
     "updated_at": "2026-04-12T15:57:24Z"
   }
 }
+
