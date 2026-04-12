@@ -21,7 +21,7 @@ export default function AthleteCard({ athlete, score }) {
           <span className={styles.score}>{score != null ? score : '—'}</span>
           <span className={styles.role}>{role}</span>
         </div>
-        <div className={styles.crownIcon}>⭑ Crown</div>
+        <div className={styles.crownIcon}>⭑</div>
       </div>
 
       <div className={styles.flag}>
@@ -32,7 +32,7 @@ export default function AthleteCard({ athlete, score }) {
         {photo ? (
           <img
             src={photo}
-            alt={`${firstName} ${name}`}
+            alt={name}
             className={styles.photo}
             onError={e => { e.currentTarget.style.display = 'none' }}
           />
