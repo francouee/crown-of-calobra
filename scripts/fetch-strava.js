@@ -29,7 +29,7 @@ const { STRAVA_CLIENT_ID, STRAVA_CLIENT_SECRET, STRAVA_REFRESH_TOKEN } = process
 
 const STRAVA_ROUTES = {
   1: '3344944257020996360',
-  2: null,
+  2: '3477722180890340586',
   3: null,
   4: null,
   5: null,

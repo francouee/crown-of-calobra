@@ -5,5 +5,12 @@
     "distance": 151390.76261219438,
     "elevation_gain": 1938.6586393909568,
     "updated_at": "2025-04-09T06:54:18Z"
+  },
+  "2": {
+    "name": "Alcudia --> Formentor",
+    "description": "",
+    "distance": 63690.871427098595,
+    "elevation_gain": 952.9300000000003,
+    "updated_at": "2026-04-12T18:26:19Z"
   }
 }
