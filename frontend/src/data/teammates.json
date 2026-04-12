@@ -1,12 +1,12 @@
 [
   {
     "id": 1,
-    "name": "MARTIN",
-    "firstName": "Antoine",
+    "name": "GIRARD",
+    "firstName": "Nicolas",
     "role": "CLM",
     "nationality": "FR",
-    "photo": "/athletes/antoine-martin.jpg",
-    "strava_athlete_id": null,
+    "photo": "/athletes/nicolas-girard.jpg",
+    "strava_athlete_id": 4772103,
     "stats": {
       "km": null,
       "elevation": null,
