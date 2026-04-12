@@ -6,6 +6,13 @@ import { processTrack, buildColoredSegments, gradientColor } from '../utils/grad
 
 const LAYERS = [
   {
+    id: 'cyclosm',
+    label: 'Cycling',
+    url: 'https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://github.com/cyclosm/cyclosm-cartocss-style">CyclOSM</a>',
+    maxZoom: 20,
+  },
+  {
     id: 'topo',
     label: 'Topo',
     url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
@@ -13,18 +20,18 @@ const LAYERS = [
     maxZoom: 17,
   },
   {
-    id: 'thunderforest',
-    label: 'Landscape',
-    url: `https://tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=${import.meta.env.VITE_THUNDERFOREST_KEY ?? ''}`,
-    attribution: '&copy; <a href="https://www.thunderforest.com/">Thunderforest</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    maxZoom: 22,
+    id: 'satellite',
+    label: 'Satellite',
+    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    attribution: '&copy; <a href="https://www.esri.com/">Esri</a>',
+    maxZoom: 19,
   },
   {
-    id: 'carto',
-    label: 'CartoDB',
+    id: 'voyager',
+    label: 'Street',
     url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
-    maxZoom: 19,
+    maxZoom: 20,
   },
 ]
 
@@ -132,7 +139,7 @@ function InteractiveLayer({ processed, onHover, hoveredIdx }) {
 }
 
 export default function MiniMap({ track, height, hoveredIdx, onHover }) {
-  const [activeLayerId, setActiveLayerId] = useState('topo')
+  const [activeLayerId, setActiveLayerId] = useState('cyclosm')
   const activeLayer = LAYERS.find(l => l.id === activeLayerId)
   const processed = useMemo(
     () => (track && track.length >= 2 ? processTrack(track) : []),
