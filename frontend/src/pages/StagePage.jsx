@@ -15,7 +15,7 @@ const TERRAIN_LABEL = {
 export default function StagePage() {
   const { id } = useParams()
   const stage = STAGES.find((s) => s.id === Number(id))
-  const { track, loading: gpxLoading } = useGpxTrack(stage?.gpx)
+  const { track, stats, loading: gpxLoading } = useGpxTrack(stage?.gpx)
   const [hoveredIdx, setHoveredIdx] = useState(null)
 
   if (!stage) {
@@ -54,20 +54,12 @@ export default function StagePage() {
 
       <div className={styles.statsRow}>
         <div className={styles.statCard}>
-          <span className={styles.statValue}>{stage.distance_km}</span>
+          <span className={styles.statValue}>{stats ? stats.distanceKm : '—'}</span>
           <span className={styles.statLabel}>km distance</span>
         </div>
         <div className={styles.statCard}>
-          <span className={styles.statValue}>+{stage.elevation_gain_m.toLocaleString()}</span>
+          <span className={styles.statValue}>{stats ? `+${stats.elevationGainM.toLocaleString()}` : '—'}</span>
           <span className={styles.statLabel}>m gain</span>
-        </div>
-        <div className={styles.statCard}>
-          <span className={styles.statValue}>{maxEle}</span>
-          <span className={styles.statLabel}>m highest point</span>
-        </div>
-        <div className={styles.statCard}>
-          <span className={styles.statValue}>{minEle}</span>
-          <span className={styles.statLabel}>m lowest point</span>
         </div>
       </div>
 

@@ -10,7 +10,7 @@ const TERRAIN_LABEL = {
 }
 
 export default function StageCard({ stage }) {
-  const { track } = useGpxTrack(stage.gpx)
+  const { track, stats } = useGpxTrack(stage.gpx)
 
   return (
     <article className={`${styles.card} ${styles[stage.terrain]}`}>
@@ -54,13 +54,13 @@ export default function StageCard({ stage }) {
 
       <div className={styles.stats}>
         <div className={styles.stat}>
-          <span className={styles.statValue}>{stage.distance_km}</span>
+          <span className={styles.statValue}>{stats ? stats.distanceKm : '—'}</span>
           <span className={styles.statLabel}>km</span>
         </div>
         <div className={styles.statDivider} />
         <div className={styles.stat}>
           <span className={styles.statValue}>
-            +{stage.elevation_gain_m.toLocaleString()}
+            {stats ? `+${stats.elevationGainM.toLocaleString()}` : '—'}
           </span>
           <span className={styles.statLabel}>m gain</span>
         </div>

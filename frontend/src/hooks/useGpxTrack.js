@@ -73,6 +73,7 @@ const INTERVAL_M = 100
 
 export function useGpxTrack(gpxPath) {
   const [track, setTrack] = useState(null)
+  const [stats, setStats] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
@@ -81,6 +82,7 @@ export function useGpxTrack(gpxPath) {
     setLoading(true)
     setError(null)
     setTrack(null)
+    setStats(null)
 
     fetch(gpxPath)
       .then((r) => {
@@ -104,7 +106,21 @@ export function useGpxTrack(gpxPath) {
 
         // togeojson coordinates are [lon, lat, ele?]
         const points = coords.map(([lon, lat, ele = 0]) => ({ lat, lon, ele }))
-        setTrack(resampleTrack(smoothStaircases(points), INTERVAL_M))
+        const smoothed = smoothStaircases(points)
+
+        // Compute distance and elevation gain on smoothed GPX points
+        let distance = 0
+        let elevationGain = 0
+        for (let i = 1; i < smoothed.length; i++) {
+          distance += haversine(smoothed[i - 1], smoothed[i])
+          const diff = smoothed[i].ele - smoothed[i - 1].ele
+          if (diff > 0) elevationGain += diff
+        }
+        setStats({
+          distanceKm: Math.round(distance / 100) / 10,
+          elevationGainM: Math.round(elevationGain),
+        })
+        setTrack(resampleTrack(smoothed, INTERVAL_M))
         setLoading(false)
       })
       .catch((e) => {
@@ -113,5 +129,5 @@ export function useGpxTrack(gpxPath) {
       })
   }, [gpxPath])
 
-  return { track, loading, error }
+  return { track, stats, loading, error }
 }
