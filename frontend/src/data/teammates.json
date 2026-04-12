@@ -5,102 +5,102 @@
     "firstName": "Nicolas",
     "role": "CLM",
     "nationality": "FR",
-    "photo": "/athletes/nicolas-girard.jpg",
+    "photo": "/athletes/ngi.png",
     "strava_athlete_id": 4772103,
     "stats": {
-      "km": null,
-      "elevation": null,
-      "best_day_elevation": null
+      "km": 603.4,
+      "elevation": 7265,
+      "best_day_elevation": 1657
     }
   },
   {
     "id": 2,
-    "name": "RODRIGUEZ",
-    "firstName": "Carlos",
+    "name": "FIGHIERA",
+    "firstName": "Vincent",
     "role": "ROL",
-    "nationality": "ES",
-    "photo": "/athletes/carlos-rodriguez.jpg",
-    "strava_athlete_id": null,
+    "nationality": "IT",
+    "photo": "/athletes/vincent-fighiera.png",
+    "strava_athlete_id": 45718511,
     "stats": {
-      "km": null,
-      "elevation": null,
+      "km": 313.8,
+      "elevation": 2331,
       "best_day_elevation": null
     }
   },
   {
     "id": 3,
-    "name": "ROSSI",
-    "firstName": "Marco",
-    "role": "GC",
-    "nationality": "IT",
-    "photo": "/athletes/marco-rossi.jpg",
-    "strava_athlete_id": null,
+    "name": "COURREGES",
+    "firstName": "Théo",
+    "role": "CLIM",
+    "nationality": "BE",
+    "photo": "/athletes/theo-courreges.png",
+    "strava_athlete_id": 5892574,
     "stats": {
-      "km": null,
-      "elevation": null,
+      "km": 345.3,
+      "elevation": 4260,
       "best_day_elevation": null
     }
   },
   {
     "id": 4,
-    "name": "VERMEERSCH",
-    "firstName": "Gianni",
-    "role": "SPR",
+    "name": "CALVET",
+    "firstName": "Pablo",
+    "role": "CHI",
     "nationality": "BE",
-    "photo": "/athletes/gianni-vermeersch.jpg",
-    "strava_athlete_id": null,
+    "photo": "/athletes/pablo-calvet.png",
+    "strava_athlete_id": 94746449,
     "stats": {
-      "km": null,
-      "elevation": null,
+      "km": 659.3,
+      "elevation": 4602,
       "best_day_elevation": null
     }
   },
   {
     "id": 5,
-    "name": "VAN DER POEL",
-    "firstName": "Lars",
-    "role": "CLM",
-    "nationality": "NL",
-    "photo": "/athletes/lars-van-der-poel.jpg",
-    "strava_athlete_id": null,
+    "name": "CULIERE",
+    "firstName": "François",
+    "role": "ROL",
+    "nationality": "FR",
+    "photo": "/athletes/francois-culiere.png",
+    "strava_athlete_id": 61201781,
     "stats": {
-      "km": null,
-      "elevation": null,
+      "km": 1259.7,
+      "elevation": 17653,
       "best_day_elevation": null
     }
   },
   {
     "id": 6,
-    "name": "MUELLER",
-    "firstName": "Stefan",
-    "role": "ROL",
+    "name": "LE MEUR",
+    "firstName": "Gaultier",
+    "role": "SPR",
     "nationality": "DE",
-    "photo": "/athletes/stefan-mueller.jpg",
-    "strava_athlete_id": null,
+    "photo": "/athletes/gaultier-lm.png",
+    "strava_athlete_id": 37757276,
     "stats": {
-      "km": null,
-      "elevation": null,
+      "km": 812.2,
+      "elevation": 7631,
       "best_day_elevation": null
     }
   },
   {
     "id": 7,
-    "name": "SIMPSON",
-    "firstName": "James",
+    "name": "TOMMASINI",
+    "firstName": "Théo",
     "role": "GC",
     "nationality": "GB",
-    "photo": "/athletes/james-simpson.jpg",
-    "strava_athlete_id": null,
+    "photo": "/athletes/tt.png",
+    "strava_athlete_id": 8576795,
     "stats": {
-      "km": null,
-      "elevation": null,
+      "km": 1397,
+      "elevation": 28855 ,
       "best_day_elevation": null
     }
   },
   {
     "id": 8,
-    "name": "ARMSTRONG",
-    "firstName": "Tyler",
+    "name": "Sebastian",
+    "firstName": "Sebastian",
     "role": "SPR",
     "nationality": "US",
     "photo": "/athletes/tyler-armstrong.jpg",
@@ -113,15 +113,15 @@
   },
   {
     "id": 9,
-    "name": "DUBOIS",
-    "firstName": "Philippe",
-    "role": "CLM",
-    "nationality": "FR",
-    "photo": "/athletes/philippe-dubois.jpg",
-    "strava_athlete_id": null,
+    "name": "ERWAN",
+    "firstName": "KAIDOMAR",
+    "role": "GC",
+    "nationality": "CN",
+    "photo": "/athletes/erwan.png",
+    "strava_athlete_id": 50589466,
     "stats": {
-      "km": null,
-      "elevation": null,
+      "km": 1347.2,
+      "elevation": 20142,
       "best_day_elevation": null
     }
   }

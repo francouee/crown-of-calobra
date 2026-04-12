@@ -65,6 +65,21 @@ async function getAccessToken(refreshToken) {
   return JSON.parse(res.body.toString()).access_token
 }
 
+async function fetchAthleteProfile(token) {
+  const res = await httpsRequest({
+    hostname: 'www.strava.com',
+    path: '/api/v3/athlete',
+    method: 'GET',
+    headers: { Authorization: `Bearer ${token}` },
+  })
+
+  if (res.status !== 200) {
+    throw new Error(`Athlete profile failed (${res.status}): ${res.body.toString()}`)
+  }
+
+  return JSON.parse(res.body.toString())
+}
+
 async function fetchAthleteStats(stravaAthleteId, token) {
   const res = await httpsRequest({
     hostname: 'www.strava.com',
@@ -110,6 +125,14 @@ async function main() {
 
     try {
       const token = await getAccessToken(refreshToken)
+
+      if (athlete.firstName === 'TBD') {
+        const profile = await fetchAthleteProfile(token)
+        athlete.firstName = profile.firstname
+        athlete.name = profile.lastname.toUpperCase()
+        console.log(`${label}: profile updated → ${athlete.firstName} ${athlete.name}`)
+      }
+
       const stats = await fetchAthleteStats(athlete.strava_athlete_id, token)
 
       const km = Math.round((stats.ytd_ride_totals.distance / 1000) * 10) / 10
