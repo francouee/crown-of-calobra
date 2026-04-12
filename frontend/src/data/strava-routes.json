@@ -46,6 +46,21 @@
     "distance": 143895.2089677869,
     "elevation_gain": 1233.6260882269103,
     "updated_at": "2026-04-12T15:57:24Z"
+  },
+  "7": {
+    "route_id": "3478489046048573878",
+    "name": "Alcudia --> Formentor --> Sa Calobra --> Alcudia",
+    "description": "",
+    "distance": 164454.23804974672,
+    "elevation_gain": 3038.479232033021,
+    "updated_at": "2026-04-12T20:19:31Z"
+  },
+  "8": {
+    "route_id": "3478491732951114980",
+    "name": "Big boss final stage",
+    "description": "",
+    "distance": 236852.07974162488,
+    "elevation_gain": 2862.228366423344,
+    "updated_at": "2026-04-12T20:22:31Z"
   }
 }
-
