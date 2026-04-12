@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { gpx as toGeoJSON } from '@tmcw/togeojson'
 import { smoothStaircases } from '../utils/gradients.js'
+import { INTERVAL_M } from '../config.js'
 
 const EARTH_R = 6371000
 
@@ -69,7 +70,6 @@ function resampleTrack(points, intervalMeters) {
  * Returns { track, loading, error } where track is an array of
  * { lat, lon, ele } objects resampled every INTERVAL_M meters.
  */
-const INTERVAL_M = 100
 
 export function useGpxTrack(gpxPath) {
   const [track, setTrack] = useState(null)

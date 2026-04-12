@@ -15,11 +15,7 @@
  * Output: [{ startDist, endDist, startEle, endEle, lengthKm, gainM, avgGrad, maxGrad }, ...]
  */
 
-const MIN_AVG_GRAD  = 5     // % — minimum average gradient to qualify
-const MIN_CLIMB_KM  = 0.3     // km — minimum climb length to keep
-const WINDOW_KM     = 0.3     // km — rolling-average window (same as min length)
-const MERGE_GAP_KM  = 0.2  // km — brief dip allowed before ending a climb
-const MIN_GAIN_M    = 30    // m  — discard if net elevation gain is too small
+import { MIN_AVG_GRAD, MIN_CLIMB_KM, WINDOW_KM, MERGE_GAP_KM, MIN_GAIN_M } from '../config.js'
 
 export function detectClimbs(processed) {
   if (!processed || processed.length < 2) return []

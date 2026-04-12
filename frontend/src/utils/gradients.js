@@ -97,7 +97,7 @@ export function smoothStaircases(track) {
  * Input:  [{ lat, lon, ele }, ...]
  * Output: [{ lat, lon, ele, dist, gradient }, ...]
  */
-const GRADIENT_WINDOW_M = 300
+import { GRADIENT_WINDOW_M } from '../config.js'
 
 export function processTrack(track) {
   if (!track || track.length === 0) return []
