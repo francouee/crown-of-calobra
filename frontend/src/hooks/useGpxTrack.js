@@ -84,7 +84,7 @@ export function useGpxTrack(gpxPath) {
     setTrack(null)
     setStats(null)
 
-    fetch(gpxPath)
+    fetch(`${import.meta.env.BASE_URL}${gpxPath.replace(/^\//, '')}`)
       .then((r) => {
         if (!r.ok) throw new Error(`Failed to load GPX: ${r.status}`)
         return r.text()
