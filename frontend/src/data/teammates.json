@@ -1,0 +1,128 @@
+[
+  {
+    "id": 1,
+    "name": "MARTIN",
+    "firstName": "Antoine",
+    "role": "CLM",
+    "nationality": "FR",
+    "photo": "/athletes/antoine-martin.jpg",
+    "strava_athlete_id": null,
+    "stats": {
+      "km": null,
+      "elevation": null,
+      "best_day_elevation": null
+    }
+  },
+  {
+    "id": 2,
+    "name": "RODRIGUEZ",
+    "firstName": "Carlos",
+    "role": "ROL",
+    "nationality": "ES",
+    "photo": "/athletes/carlos-rodriguez.jpg",
+    "strava_athlete_id": null,
+    "stats": {
+      "km": null,
+      "elevation": null,
+      "best_day_elevation": null
+    }
+  },
+  {
+    "id": 3,
+    "name": "ROSSI",
+    "firstName": "Marco",
+    "role": "GC",
+    "nationality": "IT",
+    "photo": "/athletes/marco-rossi.jpg",
+    "strava_athlete_id": null,
+    "stats": {
+      "km": null,
+      "elevation": null,
+      "best_day_elevation": null
+    }
+  },
+  {
+    "id": 4,
+    "name": "VERMEERSCH",
+    "firstName": "Gianni",
+    "role": "SPR",
+    "nationality": "BE",
+    "photo": "/athletes/gianni-vermeersch.jpg",
+    "strava_athlete_id": null,
+    "stats": {
+      "km": null,
+      "elevation": null,
+      "best_day_elevation": null
+    }
+  },
+  {
+    "id": 5,
+    "name": "VAN DER POEL",
+    "firstName": "Lars",
+    "role": "CLM",
+    "nationality": "NL",
+    "photo": "/athletes/lars-van-der-poel.jpg",
+    "strava_athlete_id": null,
+    "stats": {
+      "km": null,
+      "elevation": null,
+      "best_day_elevation": null
+    }
+  },
+  {
+    "id": 6,
+    "name": "MUELLER",
+    "firstName": "Stefan",
+    "role": "ROL",
+    "nationality": "DE",
+    "photo": "/athletes/stefan-mueller.jpg",
+    "strava_athlete_id": null,
+    "stats": {
+      "km": null,
+      "elevation": null,
+      "best_day_elevation": null
+    }
+  },
+  {
+    "id": 7,
+    "name": "SIMPSON",
+    "firstName": "James",
+    "role": "GC",
+    "nationality": "GB",
+    "photo": "/athletes/james-simpson.jpg",
+    "strava_athlete_id": null,
+    "stats": {
+      "km": null,
+      "elevation": null,
+      "best_day_elevation": null
+    }
+  },
+  {
+    "id": 8,
+    "name": "ARMSTRONG",
+    "firstName": "Tyler",
+    "role": "SPR",
+    "nationality": "US",
+    "photo": "/athletes/tyler-armstrong.jpg",
+    "strava_athlete_id": null,
+    "stats": {
+      "km": null,
+      "elevation": null,
+      "best_day_elevation": null
+    }
+  },
+  {
+    "id": 9,
+    "name": "DUBOIS",
+    "firstName": "Philippe",
+    "role": "CLM",
+    "nationality": "FR",
+    "photo": "/athletes/philippe-dubois.jpg",
+    "strava_athlete_id": null,
+    "stats": {
+      "km": null,
+      "elevation": null,
+      "best_day_elevation": null
+    }
+  }
+]
