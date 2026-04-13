@@ -23,7 +23,7 @@ const TERRAIN_LABEL = {
 export default function StagePage() {
   const { id } = useParams()
   const stage = [...STAGES, ...PROPOSALS].find((s) => s.id === Number(id))
-  const { track, stats, loading: gpxLoading } = useGpxTrack(stage?.gpx)
+  const { track, denseTrack, stats, loading: gpxLoading } = useGpxTrack(stage?.gpx)
   const [hoveredIdx, setHoveredIdx] = useState(null)
   const [zoomRange, setZoomRange] = useState(null)
   const { theme, toggle } = useThemeContext()
@@ -94,6 +94,7 @@ export default function StagePage() {
         <div className={styles.chartSection}>
           <ElevationProfile
             track={track}
+            denseTrack={denseTrack}
             terrain={stage.terrain}
             hoveredIdx={hoveredIdx}
             onHover={setHoveredIdx}

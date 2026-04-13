@@ -110,7 +110,7 @@ function InteractiveLayer({ processed, onHover, hoveredIdx }) {
         const d = (p.lat - lat) ** 2 + (p.lon - lon) ** 2
         if (d < minDist) { minDist = d; nearestIdx = i }
       })
-      onHover?.(nearestIdx)
+      onHover?.(processed[nearestIdx]?.dist ?? null)
     })
     .on('mouseout', () => onHover?.(null))
     .addTo(map)
@@ -134,7 +134,11 @@ function InteractiveLayer({ processed, onHover, hoveredIdx }) {
       return
     }
 
-    const pt = processed[hoveredIdx]
+    let pt = null, _minDiff = Infinity
+    processed.forEach((p) => {
+      const diff = Math.abs(p.dist - hoveredIdx)
+      if (diff < _minDiff) { _minDiff = diff; pt = p }
+    })
     if (!pt) return
 
     const color = gradientColor(pt.gradient)

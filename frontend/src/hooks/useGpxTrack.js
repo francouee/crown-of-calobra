@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { gpx as toGeoJSON } from '@tmcw/togeojson'
 import { smoothStaircases } from '../utils/gradients.js'
-import { INTERVAL_M } from '../config.js'
+import { INTERVAL_M, MIN_ZOOM_INTERVAL_M } from '../config.js'
 
 const EARTH_R = 6371000
 
@@ -73,6 +73,7 @@ function resampleTrack(points, intervalMeters) {
 
 export function useGpxTrack(gpxPath) {
   const [track, setTrack] = useState(null)
+  const [denseTrack, setDenseTrack] = useState(null)
   const [stats, setStats] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -82,6 +83,7 @@ export function useGpxTrack(gpxPath) {
     setLoading(true)
     setError(null)
     setTrack(null)
+    setDenseTrack(null)
     setStats(null)
 
     fetch(`${import.meta.env.BASE_URL}${gpxPath.replace(/^\//, '')}`)
@@ -121,6 +123,7 @@ export function useGpxTrack(gpxPath) {
           elevationGainM: Math.round(elevationGain),
         })
         setTrack(resampleTrack(smoothed, INTERVAL_M))
+        setDenseTrack(resampleTrack(smoothed, MIN_ZOOM_INTERVAL_M))
         setLoading(false)
       })
       .catch((e) => {
@@ -129,5 +132,5 @@ export function useGpxTrack(gpxPath) {
       })
   }, [gpxPath])
 
-  return { track, stats, loading, error }
+  return { track, denseTrack, stats, loading, error }
 }

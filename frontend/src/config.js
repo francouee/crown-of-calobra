@@ -7,6 +7,8 @@
 
 /** Resample interval for GPX tracks (meters between display points). Max: 100 m. */
 export const INTERVAL_M = 200
+/** Minimum resample interval used when brush-zooming the elevation chart (meters). */
+export const MIN_ZOOM_INTERVAL_M = 20
 
 // ─── gradients.js ────────────────────────────────────────────────────────────
 /** Half-width of the sliding window used to smooth per-point gradients (meters). Must be >= 2 × INTERVAL_M. */

@@ -3,7 +3,7 @@ import * as d3 from 'd3'
 import { processTrack, gradientColor, GRADIENT_SCALE } from '../utils/gradients.js'
 import styles from './ElevationProfile.module.css'
 
-export default function ElevationProfile({ track, terrain, hoveredIdx, onHover, zoomRange, onZoom }) {
+export default function ElevationProfile({ track, denseTrack, terrain, hoveredIdx, onHover, zoomRange, onZoom }) {
   const svgRef = useRef(null)
   const containerRef = useRef(null)
   const crosshairRef = useRef(null)
@@ -15,7 +15,8 @@ export default function ElevationProfile({ track, terrain, hoveredIdx, onHover, 
   useEffect(() => {
     if (!track || track.length < 2) return
 
-    const data = processTrack(track)
+    const source = (zoomRange && denseTrack && denseTrack.length >= 2) ? denseTrack : track
+    const data = processTrack(source)
     processedRef.current = data
     const totalDist = data[data.length - 1].dist
 
@@ -174,7 +175,7 @@ export default function ElevationProfile({ track, terrain, hoveredIdx, onHover, 
             const diff = Math.abs(pt.dist - distAtMouse)
             if (diff < minDiff) { minDiff = diff; nearestIdx = i }
           })
-          drawParamsRef.current.onHover?.(nearestIdx)
+          drawParamsRef.current.onHover?.(processedRef.current[nearestIdx]?.dist ?? null)
         })
         .on('mouseleave.hover', () => drawParamsRef.current.onHover?.(null))
         .on('dblclick.reset', () => drawParamsRef.current.onZoom?.(null))
@@ -186,7 +187,7 @@ export default function ElevationProfile({ track, terrain, hoveredIdx, onHover, 
     const container = containerRef.current
     if (container) ro.observe(container)
     return () => ro.disconnect()
-  }, [track, terrain, onHover, onZoom, zoomRange])
+  }, [track, denseTrack, terrain, onHover, onZoom, zoomRange])
 
   // Crosshair + tooltip update
   useEffect(() => {
@@ -203,7 +204,11 @@ export default function ElevationProfile({ track, terrain, hoveredIdx, onHover, 
       return
     }
 
-    const pt = data[hoveredIdx]
+    let pt = null, _minDiff = Infinity
+    data.forEach((p) => {
+      const diff = Math.abs(p.dist - hoveredIdx)
+      if (diff < _minDiff) { _minDiff = diff; pt = p }
+    })
     if (!pt) { crosshair.style('display', 'none'); setTooltip(null); return }
 
     crosshair.style('display', null)
