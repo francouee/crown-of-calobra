@@ -47,24 +47,46 @@ const STAGE_META = {
   },
 }
 
-export const STAGES = Object.entries(stravaRoutes)
-  .sort(([a], [b]) => Number(a) - Number(b))
-  .map(([key, route]) => {
-    const id = Number(key)
-    const meta = STAGE_META[id] ?? {}
-    const terrain = inferTerrain(route.elevation_gain, route.distance)
-    return {
-      id,
-      name: route.name,
-      subtitle: `Stage ${id} · ${terrain.charAt(0).toUpperCase() + terrain.slice(1)}`,
-      terrain,
-      start: meta.start ?? '',
-      finish: meta.finish ?? '',
-      description: meta.description ?? '',
-      gpx: `/gpx/stage-${id}.gpx`,
-      strava_route_id: route.route_id ?? null,
-      strava_url: route.route_id
-        ? `https://www.strava.com/routes/${route.route_id}`
-        : null,
-    }
-  })
+// Race start date — Stage 1 is on this date, each subsequent stage is +1 day.
+const RACE_START = new Date('2026-04-13')
+
+// The first SELECTED_COUNT routes in strava-routes.json are the confirmed race
+// stages. Everything beyond that is treated as a proposal.
+const SELECTED_COUNT = 6
+
+function buildStage(id, route, meta = {}, stageIndex = null) {
+  const terrain = inferTerrain(route.elevation_gain, route.distance)
+  let date = null
+  if (stageIndex !== null) {
+    const d = new Date(RACE_START)
+    d.setDate(RACE_START.getDate() + stageIndex)
+    date = d.toISOString().slice(0, 10)
+  }
+  return {
+    id,
+    date,
+    name: route.name,
+    subtitle: `Stage ${id} · ${terrain.charAt(0).toUpperCase() + terrain.slice(1)}`,
+    terrain,
+    start: meta.start ?? '',
+    finish: meta.finish ?? '',
+    description: meta.description ?? '',
+    gpx: `/gpx/stage-${id}.gpx`,
+    strava_route_id: route.route_id ?? null,
+    strava_url: route.route_id
+      ? `https://www.strava.com/routes/${route.route_id}`
+      : null,
+  }
+}
+
+const allEntries = Object.entries(stravaRoutes).sort(([a], [b]) => Number(a) - Number(b))
+
+export const STAGES = allEntries.slice(0, SELECTED_COUNT).map(([key, route], i) => {
+  const id = Number(key)
+  return buildStage(id, route, STAGE_META[id] ?? {}, i)
+})
+
+export const PROPOSALS = allEntries.slice(SELECTED_COUNT).map(([key, route]) => {
+  const id = Number(key)
+  return buildStage(id, route, STAGE_META[id] ?? {}, null)
+})

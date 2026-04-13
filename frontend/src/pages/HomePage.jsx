@@ -1,18 +1,21 @@
 import { Link } from 'react-router-dom'
 import StageCard from '../components/StageCard.jsx'
 import ThemeToggle from '../components/ThemeToggle.jsx'
-import { STAGES } from '../data/stages.js'
+import { STAGES, PROPOSALS } from '../data/stages.js'
 import stravaRoutes from '../data/strava-routes.json'
 import { useThemeContext } from '../App.jsx'
 import styles from './HomePage.module.css'
 
-// Derive totals from the Strava metadata (already fetched, no GPX loading needed)
-const stravaValues = Object.values(stravaRoutes)
+// Totals are based on selected stages only (first STAGES.length entries by numeric key)
+const selectedRouteValues = Object.entries(stravaRoutes)
+  .sort(([a], [b]) => Number(a) - Number(b))
+  .slice(0, STAGES.length)
+  .map(([, r]) => r)
 const totalDistance = Math.round(
-  stravaValues.reduce((acc, r) => acc + r.distance, 0) / 1000,
+  selectedRouteValues.reduce((acc, r) => acc + r.distance, 0) / 1000,
 )
 const totalElevation = Math.round(
-  stravaValues.reduce((acc, r) => acc + r.elevation_gain, 0),
+  selectedRouteValues.reduce((acc, r) => acc + r.elevation_gain, 0),
 )
 
 export default function HomePage() {
@@ -56,6 +59,20 @@ export default function HomePage() {
             </Link>
           ))}
         </div>
+
+        {PROPOSALS.length > 0 && (
+          <section className={styles.proposals}>
+            <h2 className={styles.proposalsTitle}>Route Proposals</h2>
+            <p className={styles.proposalsSubtitle}>Candidates under consideration — not yet scheduled.</p>
+            <div className={styles.grid}>
+              {PROPOSALS.map((stage) => (
+                <Link key={stage.id} to={`/stage/${stage.id}`} className={`${styles.cardLink} ${styles.proposalCard}`}>
+                  <StageCard stage={stage} />
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
       </main>
     </div>
   )

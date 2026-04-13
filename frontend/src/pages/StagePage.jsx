@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import MiniMap from '../components/MiniMap.jsx'
 import ElevationProfile from '../components/ElevationProfile.jsx'
 import StravaRouteSection from '../components/StravaRouteSection.jsx'
-import { STAGES } from '../data/stages.js'
+import { STAGES, PROPOSALS } from '../data/stages.js'
 import { useGpxTrack } from '../hooks/useGpxTrack.js'
 import { processTrack } from '../utils/gradients.js'
 import { detectClimbs } from '../utils/detectClimbs.js'
@@ -20,7 +20,7 @@ const TERRAIN_LABEL = {
 
 export default function StagePage() {
   const { id } = useParams()
-  const stage = STAGES.find((s) => s.id === Number(id))
+  const stage = [...STAGES, ...PROPOSALS].find((s) => s.id === Number(id))
   const { track, stats, loading: gpxLoading } = useGpxTrack(stage?.gpx)
   const [hoveredIdx, setHoveredIdx] = useState(null)
   const [zoomRange, setZoomRange] = useState(null)
@@ -150,7 +150,7 @@ export default function StagePage() {
             ← Stage {stage.id - 1}
           </Link>
         )}
-        {stage.id < STAGES.length && (
+        {stage.id < STAGES.length + PROPOSALS.length && (
           <Link to={`/stage/${stage.id + 1}`} className={`${styles.stageNavBtn} ${styles.stageNavNext}`}>
             Stage {stage.id + 1} →
           </Link>

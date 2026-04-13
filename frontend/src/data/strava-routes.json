@@ -1,11 +1,11 @@
 {
   "1": {
-    "route_id": "3478498947268582000",
-    "name": "Mallorca 101",
-    "description": "",
+    "route_id": "3478649586777205174",
+    "name": "Coll de sa Batalla",
+    "description": "Stage 1 Crown of Calobra 2026",
     "distance": 74262.62935646845,
-    "elevation_gain": 885.7242732259112,
-    "updated_at": "2026-04-12T21:13:12Z"
+    "elevation_gain": 885.73,
+    "updated_at": "2026-04-13T06:08:57Z"
   },
   "2": {
     "route_id": "3344944257020996360",
@@ -24,14 +24,30 @@
     "updated_at": "2026-04-12T18:40:55Z"
   },
   "4": {
-    "route_id": "3478419423307930224",
-    "name": "Mallorca - Short",
+    "route_id": "3478489046048573878",
+    "name": "Alcudia  --> Sa Calobra",
     "description": "",
-    "distance": 76206.40457396347,
-    "elevation_gain": 1224.3668710702775,
-    "updated_at": "2026-04-12T15:42:10Z"
+    "distance": 116913.75919479132,
+    "elevation_gain": 2047.7814813978316,
+    "updated_at": "2026-04-13T06:25:53Z"
   },
   "5": {
+    "route_id": "3477722180890340586",
+    "name": "Alcudia --> Formentor",
+    "description": "",
+    "distance": 63690.871427098595,
+    "elevation_gain": 952.9300000000003,
+    "updated_at": "2026-04-12T18:26:19Z"
+  },
+  "6": {
+    "route_id": "3478491732951114980",
+    "name": "Big boss final stage",
+    "description": "",
+    "distance": 236852.07974162488,
+    "elevation_gain": 2862.228366423344,
+    "updated_at": "2026-04-12T20:22:31Z"
+  },
+  "7": {
     "route_id": "3478416891530131894",
     "name": "Mallorca - Hard",
     "description": "",
@@ -39,7 +55,7 @@
     "elevation_gain": 3760.8311634233005,
     "updated_at": "2026-04-12T15:46:39Z"
   },
-  "6": {
+  "8": {
     "route_id": "3478423919759871600",
     "name": "Mallorca - Mid 2",
     "description": "",
@@ -47,20 +63,12 @@
     "elevation_gain": 1233.6260882269103,
     "updated_at": "2026-04-12T15:57:24Z"
   },
-  "7": {
-    "route_id": "3478489046048573878",
-    "name": "Alcudia --> Formentor --> Sa Calobra --> Alcudia",
+  "9": {
+    "route_id": "3478419423307930224",
+    "name": "Mallorca - Short",
     "description": "",
-    "distance": 164454.23804974672,
-    "elevation_gain": 3038.479232033021,
-    "updated_at": "2026-04-12T20:19:31Z"
-  },
-  "8": {
-    "route_id": "3478491732951114980",
-    "name": "Big boss final stage",
-    "description": "",
-    "distance": 236852.07974162488,
-    "elevation_gain": 2862.228366423344,
-    "updated_at": "2026-04-12T20:22:31Z"
+    "distance": 76206.40457396347,
+    "elevation_gain": 1224.3668710702775,
+    "updated_at": "2026-04-12T15:42:10Z"
   }
 }

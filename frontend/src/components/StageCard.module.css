@@ -32,6 +32,14 @@
   color: var(--text-secondary);
 }
 
+.date {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+
 .badge {
   font-family: var(--font-mono);
   font-size: 10px;

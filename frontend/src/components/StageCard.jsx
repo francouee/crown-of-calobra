@@ -22,6 +22,11 @@ export default function StageCard({ stage }) {
           <span className={`${styles.badge} ${styles[`badge_${stage.terrain}`]}`}>
             {TERRAIN_LABEL[stage.terrain]}
           </span>
+          {stage.date && (
+            <span className={styles.date}>
+              {new Date(stage.date + 'T00:00:00').toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}
+            </span>
+          )}
         </div>
         <h2 className={styles.name}>{stage.name}</h2>
         <p className={styles.route}>

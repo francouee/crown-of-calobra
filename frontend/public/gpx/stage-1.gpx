@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gpx creator="StravaGPX" version="1.1" xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
  <metadata>
-  <name>Mallorca 101</name>
+  <name>Coll de sa Batalla</name>
+  <desc>Stage 1 Crown of Calobra 2026</desc>
   <copyright author="OpenStreetMap contributors">
    <year>2020</year>
    <license>https://www.openstreetmap.org/copyright</license>
   </copyright>
-  <link href="https://www.strava.com/routes/3478498947268582000"/>
+  <link href="https://www.strava.com/routes/3478649586777205174"/>
  </metadata>
  <trk>
-  <name>Mallorca 101</name>
-  <link href="https://www.strava.com/routes/3478498947268582000"/>
+  <name>Coll de sa Batalla</name>
+  <desc>Stage 1 Crown of Calobra 2026</desc>
+  <link href="https://www.strava.com/routes/3478649586777205174"/>
   <type>cycling</type>
   <trkseg>
    <trkpt lat="39.83935" lon="3.1543200000000002">

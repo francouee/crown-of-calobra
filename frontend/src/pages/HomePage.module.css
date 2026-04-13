@@ -135,3 +135,28 @@
     grid-template-columns: 1fr;
   }
 }
+
+.proposals {
+  margin-top: 64px;
+}
+
+.proposalsTitle {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.proposalsSubtitle {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.proposalCard {
+  opacity: 0.6;
+}
