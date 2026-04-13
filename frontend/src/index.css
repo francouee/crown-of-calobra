@@ -22,6 +22,10 @@
   --terrain-hilly-dim: rgba(80, 148, 232, 0.15);
   --terrain-flat: #50c882;
   --terrain-flat-dim: rgba(80, 200, 130, 0.15);
+  --terrain-rest: #9b8ea0;
+  --terrain-rest-dim: rgba(155, 142, 160, 0.15);
+  --terrain-big-boss: #e8a020;
+  --terrain-big-boss-dim: rgba(232, 160, 32, 0.15);
 
   --font-sans: 'Space Grotesk', system-ui, sans-serif;
   --font-mono: 'Space Mono', monospace;
@@ -48,6 +52,10 @@
   --terrain-hilly-dim: rgba(36, 113, 200, 0.12);
   --terrain-flat: #229954;
   --terrain-flat-dim: rgba(34, 153, 84, 0.12);
+  --terrain-rest: #7d6f87;
+  --terrain-rest-dim: rgba(125, 111, 135, 0.12);
+  --terrain-big-boss: #c0780a;
+  --terrain-big-boss-dim: rgba(192, 120, 10, 0.12);
 }
 
 html, body, #root {

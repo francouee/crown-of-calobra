@@ -65,6 +65,16 @@
   background: var(--terrain-flat-dim);
 }
 
+.badge_rest {
+  color: var(--terrain-rest);
+  background: var(--terrain-rest-dim);
+}
+
+.badge_big_boss {
+  color: var(--terrain-big-boss);
+  background: var(--terrain-big-boss-dim);
+}
+
 .name {
   font-size: 22px;
   font-weight: 700;

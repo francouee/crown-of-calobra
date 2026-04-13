@@ -7,6 +7,8 @@ const TERRAIN_LABEL = {
   mountain: 'Mountain',
   hilly: 'Hilly',
   flat: 'Flat',
+  rest: 'Rest',
+  big_boss: 'Big Boss',
 }
 
 export default function StageCard({ stage }) {

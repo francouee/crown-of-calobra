@@ -6,6 +6,8 @@ import stravaRoutes from './strava-routes.json'
 //   hilly      8–12 m/km
 //   flat      < 8 m/km
 function inferTerrain(elevationGainM, distanceM) {
+  if (distanceM < 70000) return 'rest'
+  if (distanceM > 200000) return 'big_boss'
   const gainPerKm = elevationGainM / (distanceM / 1000)
   if (gainPerKm >= 12) return 'mountain'
   if (gainPerKm >= 8) return 'hilly'
