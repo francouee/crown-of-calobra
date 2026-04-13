@@ -27,16 +27,9 @@ function MapZoomer({ processed, zoomRange }) {
 
 const LAYERS = [
   {
-    id: 'cyclosm',
-    label: 'Cycling',
-    url: 'https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png',
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://github.com/cyclosm/cyclosm-cartocss-style">CyclOSM</a>',
-    maxZoom: 20,
-  },
-  {
     id: 'topo',
     label: 'Topo',
-    url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+    url: 'http://services.arcgisonline.com/arcgis/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
     attribution: '&copy; <a href="https://opentopomap.org">OpenTopoMap</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     maxZoom: 17,
   },
@@ -48,9 +41,9 @@ const LAYERS = [
     maxZoom: 19,
   },
   {
-    id: 'voyager',
+    id: 'humanitarian',
     label: 'Street',
-    url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+    url: 'http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
     maxZoom: 20,
   },
@@ -160,7 +153,7 @@ function InteractiveLayer({ processed, onHover, hoveredIdx }) {
 }
 
 export default function MiniMap({ track, height, hoveredIdx, onHover, zoomRange }) {
-  const [activeLayerId, setActiveLayerId] = useState('cyclosm')
+  const [activeLayerId, setActiveLayerId] = useState('topo')
   const activeLayer = LAYERS.find(l => l.id === activeLayerId)
   const processed = useMemo(
     () => (track && track.length >= 2 ? processTrack(track) : []),
