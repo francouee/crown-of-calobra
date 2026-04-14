@@ -4,6 +4,10 @@
   padding: 0 24px 80px;
 }
 
+.resultsSection {
+  margin-bottom: 40px;
+}
+
 .nav {
   display: flex;
   align-items: center;

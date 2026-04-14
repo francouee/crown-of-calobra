@@ -8,6 +8,7 @@ import { useGpxTrack } from '../hooks/useGpxTrack.js'
 import { processTrack } from '../utils/gradients.js'
 import { detectClimbs } from '../utils/detectClimbs.js'
 import ClimbProfile from '../components/ClimbProfile.jsx'
+import StageResults from '../components/StageResults.jsx'
 import { useThemeContext } from '../App.jsx'
 import ThemeToggle from '../components/ThemeToggle.jsx'
 import styles from './StagePage.module.css'
@@ -109,6 +110,10 @@ export default function StagePage() {
         </div>
 
         <StravaRouteSection stage={stage} />
+
+        <div className={styles.resultsSection}>
+          <StageResults stageId={stage.id} />
+        </div>
 
         {climbs.length > 0 && (
           <div className={styles.climbsSection}>

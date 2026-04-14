@@ -1,0 +1,67 @@
+import teammates from '../data/teammates.json'
+import stageResults from '../data/stage-results.json'
+import styles from './StageResults.module.css'
+
+const AWARDS = [
+  { key: 'winner',       icon: '🏆', label: 'Stage Winner' },
+  { key: 'best_climber', icon: '⛰️',  label: 'Best Climber' },
+  { key: 'combative',    icon: '⚔️',  label: 'Most Combative' },
+  { key: 'puncher',      icon: '👊',  label: 'Puncher of the Day' },
+]
+
+function findRider(id) {
+  return teammates.find((t) => t.id === id) ?? null
+}
+
+export default function StageResults({ stageId }) {
+  const result = stageResults[String(stageId)]
+
+  // Stage not done yet — nothing to show
+  if (!result || AWARDS.every((a) => result[a.key] == null) && !result.time && !result.notes) {
+    return null
+  }
+
+  return (
+    <div className={styles.wrap}>
+      <p className={styles.sectionLabel}>Stage Report</p>
+
+      {result.time && (
+        <div className={styles.timeRow}>
+          <span className={styles.timeIcon}>⏱</span>
+          <span className={styles.timeLabel}>Stage time</span>
+          <span className={styles.timeValue}>{result.time}</span>
+        </div>
+      )}
+
+      <div className={styles.awards}>
+        {AWARDS.map(({ key, icon, label }) => {
+          const rider = result[key] != null ? findRider(result[key]) : null
+          if (!rider) return null
+          return (
+            <div key={key} className={styles.award}>
+              <span className={styles.awardIcon}>{icon}</span>
+              <div className={styles.awardBody}>
+                <span className={styles.awardLabel}>{label}</span>
+                <div className={styles.riderRow}>
+                  <img
+                    className={styles.photo}
+                    src={rider.photo}
+                    alt={rider.firstName}
+                    onError={(e) => { e.currentTarget.style.display = 'none' }}
+                  />
+                  <span className={styles.riderName}>
+                    {rider.firstName} <strong>{rider.name}</strong>
+                  </span>
+                </div>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
+      {result.notes && (
+        <p className={styles.notes}>{result.notes}</p>
+      )}
+    </div>
+  )
+}
