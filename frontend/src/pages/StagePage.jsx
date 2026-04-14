@@ -83,6 +83,10 @@ export default function StagePage() {
       </div>
 
       <div className={styles.content}>
+        <div className={styles.resultsSection}>
+          <StageResults stageId={stage.id} distanceKm={stats?.distanceKm ?? null} />
+        </div>
+
         <div className={styles.mapSection}>
           <p className={styles.sectionLabel}>GPS Track</p>
           <div className={styles.mapWrap}>
@@ -110,10 +114,6 @@ export default function StagePage() {
         </div>
 
         <StravaRouteSection stage={stage} />
-
-        <div className={styles.resultsSection}>
-          <StageResults stageId={stage.id} />
-        </div>
 
         {climbs.length > 0 && (
           <div className={styles.climbsSection}>

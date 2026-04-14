@@ -1,6 +1,7 @@
 import MiniMap from '../components/MiniMap.jsx'
 import ElevationProfile from '../components/ElevationProfile.jsx'
 import { useGpxTrack } from '../hooks/useGpxTrack.js'
+import stageResults from '../data/stage-results.json'
 import styles from './StageCard.module.css'
 
 const TERRAIN_LABEL = {
@@ -13,9 +14,10 @@ const TERRAIN_LABEL = {
 
 export default function StageCard({ stage }) {
   const { track, stats } = useGpxTrack(stage.gpx)
+  const isDone = Boolean(stageResults[String(stage.id)])
 
   return (
-    <article className={`${styles.card} ${styles[stage.terrain]}`}>
+    <article className={`${styles.card} ${styles[stage.terrain]} ${isDone ? styles.done : ''}`}>
       <div className={styles.top}>
         <div className={styles.meta}>
           <span className={styles.stageNum}>
@@ -29,6 +31,7 @@ export default function StageCard({ stage }) {
               {new Date(stage.date + 'T00:00:00').toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}
             </span>
           )}
+          {isDone && <span className={styles.donePill}>✓ Done</span>}
         </div>
         <h2 className={styles.name}>{stage.name}</h2>
         <p className={styles.route}>

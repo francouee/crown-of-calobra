@@ -43,6 +43,14 @@
   letter-spacing: 0.04em;
 }
 
+.speedValue {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-secondary);
+  letter-spacing: 0.04em;
+  margin-left: 8px;
+}
+
 .awards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));

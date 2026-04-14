@@ -13,7 +13,19 @@ function findRider(id) {
   return teammates.find((t) => t.id === id) ?? null
 }
 
-export default function StageResults({ stageId }) {
+/**
+ * Parses a human time string like "2h 35min", "3h", "45min" into decimal hours.
+ * Returns null if unparseable.
+ */
+function parseTimeHours(str) {
+  if (!str) return null
+  const h = str.match(/(\d+)\s*h/)
+  const m = str.match(/(\d+)\s*min/)
+  if (!h && !m) return null
+  return (h ? Number(h[1]) : 0) + (m ? Number(m[1]) / 60 : 0)
+}
+
+export default function StageResults({ stageId, distanceKm }) {
   const result = stageResults[String(stageId)]
 
   // Stage not done yet — nothing to show
@@ -30,6 +42,14 @@ export default function StageResults({ stageId }) {
           <span className={styles.timeIcon}>⏱</span>
           <span className={styles.timeLabel}>Stage time</span>
           <span className={styles.timeValue}>{result.time}</span>
+          {(() => {
+            const hours = parseTimeHours(result.time)
+            if (hours && distanceKm) {
+              const speed = (distanceKm / hours).toFixed(1)
+              return <span className={styles.speedValue}>{speed} km/h</span>
+            }
+            return null
+          })()}
         </div>
       )}
 
