@@ -45,7 +45,7 @@ export default function StageResults({ stageId }) {
                 <div className={styles.riderRow}>
                   <img
                     className={styles.photo}
-                    src={rider.photo}
+                    src={`${import.meta.env.BASE_URL}${rider.photo.replace(/^\//, '')}`}
                     alt={rider.firstName}
                     onError={(e) => { e.currentTarget.style.display = 'none' }}
                   />
