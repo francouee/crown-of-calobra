@@ -14,5 +14,13 @@
     "combative": 2,
     "puncher": 4,
     "notes": ""
+  },
+  "3": {
+    "winner": 4,
+    "time": "2h 30min",
+    "best_climber": null,
+    "combative": 5,
+    "puncher": 4,
+    "notes": ""
   }
 }
