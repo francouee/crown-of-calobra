@@ -34,7 +34,7 @@ export default function AthleteCard({ athlete, score }) {
       <div className={styles.photoArea}>
         {photo ? (
           <img
-            src={photo}
+            src={`${import.meta.env.BASE_URL}${photo.replace(/^\//, '')}`}
             alt={name ?? ''}
             className={styles.photo}
             onError={e => { e.currentTarget.style.display = 'none' }}
