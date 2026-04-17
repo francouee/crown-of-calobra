@@ -157,7 +157,6 @@
 .content {
   display: flex;
   flex-direction: column;
-  gap: 48px;
 }
 
 .sectionLabel {
@@ -188,7 +187,6 @@
 }
 
 .descSection {
-  border-top: 1px solid var(--border);
   padding-top: 32px;
 }
 
@@ -201,7 +199,6 @@
 
 /* ── Climbs section ─────────────────────────────────────────── */
 .climbsSection {
-  border-top: 1px solid var(--border);
   padding-top: 32px;
 }
 

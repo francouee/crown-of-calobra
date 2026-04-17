@@ -111,11 +111,6 @@ export default function StagePage() {
           />
         </div>
 
-        <div className={styles.descSection}>
-          <p className={styles.sectionLabel}>Stage Notes</p>
-          <p className={styles.description}>{stage.description}</p>
-        </div>
-
         <StravaRouteSection stage={stage} />
 
         {climbs.length > 0 && (
