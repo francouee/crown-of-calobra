@@ -9,6 +9,7 @@ import { processTrack } from '../utils/gradients.js'
 import { detectClimbs } from '../utils/detectClimbs.js'
 import ClimbProfile from '../components/ClimbProfile.jsx'
 import StageResults from '../components/StageResults.jsx'
+import StagePhotos from '../components/StagePhotos.jsx'
 import { useThemeContext } from '../App.jsx'
 import ThemeToggle from '../components/ThemeToggle.jsx'
 import styles from './StagePage.module.css'
@@ -86,6 +87,8 @@ export default function StagePage() {
         <div className={styles.resultsSection}>
           <StageResults stageId={stage.id} distanceKm={stats?.distanceKm ?? null} />
         </div>
+
+        <StagePhotos stageId={stage.id} />
 
         <div className={styles.mapSection}>
           <p className={styles.sectionLabel}>GPS Track</p>
