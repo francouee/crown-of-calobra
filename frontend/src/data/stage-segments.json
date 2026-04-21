@@ -1,12 +1,54 @@
 {
   "1": [
     {
-      "id": "37982329",
-      "name": "Coll De Femenia",
-      "distance_m": 7671,
-      "elevation_m": 433,
-      "avg_grade": 5.8,
-      "url": "https://www.strava.com/segments/37982329"
+      "id": "6518145",
+      "name": "Pujada a Búger",
+      "url": "https://www.strava.com/segments/6518145",
+      "distance_m": 482,
+      "elevation_m": 29,
+      "avg_grade": 6.1
+    },
+    {
+      "id": "686221",
+      "name": "Coll de sa Batalla",
+      "url": "https://www.strava.com/segments/686221",
+      "distance_m": 7880,
+      "elevation_m": 391,
+      "avg_grade": 5.2
+    },
+    {
+      "id": "14651194",
+      "name": "Last push",
+      "url": "https://www.strava.com/segments/14651194",
+      "distance_m": 1028,
+      "elevation_m": 53,
+      "avg_grade": 5
+    }
+  ],
+  "2": [
+    {
+      "id": "19494055",
+      "name": "Coll de Orient + Coll de Honor",
+      "distance_m": 10756,
+      "elevation_m": 396,
+      "avg_grade": 2.9,
+      "url": "https://www.strava.com/segments/19494055"
+    },
+    {
+      "id": "8107312",
+      "name": "Coll de Sóller",
+      "distance_m": 5069,
+      "elevation_m": 254,
+      "avg_grade": 5.1,
+      "url": "https://www.strava.com/segments/8107312"
+    },
+    {
+      "id": "8107312",
+      "name": "Coll de Sóller",
+      "distance_m": 5069,
+      "elevation_m": 254,
+      "avg_grade": 5.1,
+      "url": "https://www.strava.com/segments/8107312"
     }
   ]
 }
