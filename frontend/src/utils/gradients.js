@@ -16,6 +16,25 @@ export function gradientColor(pct) {
   return GRADIENT_SCALE[GRADIENT_SCALE.length - 1].color
 }
 
+// Darker variant for map overlay where light greens are hard to read
+export const MAP_GRADIENT_SCALE = [
+  { max: 0,        color: '#4ade80' },  // downhill — medium green
+  { max: 2,        color: '#16a34a' },  // 0–2%
+  { max: 4,        color: '#15803d' },  // 2–4%
+  { max: 6,        color: '#166534' },  // 4–6%
+  { max: 8,        color: '#14532d' },  // 6–8%
+  { max: 10,       color: '#052e16' },  // 8–10%
+  { max: Infinity, color: '#021a0c' },  // >10%
+]
+
+export function mapGradientColor(pct) {
+  if (pct < 0) return MAP_GRADIENT_SCALE[0].color
+  for (const { max, color } of MAP_GRADIENT_SCALE.slice(1)) {
+    if (pct < max) return color
+  }
+  return MAP_GRADIENT_SCALE[MAP_GRADIENT_SCALE.length - 1].color
+}
+
 export function haversineMeters(p1, p2) {
   const R = 6371000
   const toRad = (d) => (d * Math.PI) / 180

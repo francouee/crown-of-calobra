@@ -2,7 +2,7 @@ import { useEffect, useRef, useMemo, useState } from 'react'
 import L from 'leaflet'
 import { MapContainer, TileLayer, Polyline, useMap } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
-import { processTrack, gradientColor } from '../utils/gradients.js'
+import { processTrack, gradientColor, mapGradientColor } from '../utils/gradients.js'
 
 /**
  * Flies the map to the track slice corresponding to the current zoomRange.
@@ -156,6 +156,48 @@ function InteractiveLayer({ processed, onHover, hoveredIdx }) {
   return null
 }
 
+/**
+ * Groups processed track points into consecutive same-color polyline segments.
+ * Returns two arrays — descending first, ascending second — so that when the
+ * route doubles back (back-and-forth), the ascending colour renders on top.
+ */
+function buildColoredSegments(processed) {
+  if (!processed.length) return { descending: [], ascending: [] }
+
+  const descending = []
+  const ascending  = []
+
+  let curColor  = mapGradientColor(processed[0].gradient)
+  let curIsDesc = processed[0].gradient < 0
+  let curPos    = [[processed[0].lat, processed[0].lon]]
+
+  for (let i = 1; i < processed.length; i++) {
+    const p     = processed[i]
+    const color = mapGradientColor(p.gradient)
+    const isDesc = p.gradient < 0
+
+    if (color !== curColor) {
+      // Close current segment (include this point so there's no gap)
+      curPos.push([p.lat, p.lon])
+      if (curPos.length >= 2) {
+        const seg = { color: curColor, positions: curPos }
+        if (curIsDesc) { descending.push(seg) } else { ascending.push(seg) }
+      }
+      curColor  = color
+      curIsDesc = isDesc
+      curPos    = [[p.lat, p.lon]]
+    } else {
+      curPos.push([p.lat, p.lon])
+    }
+  }
+  // Flush last segment
+  if (curPos.length >= 2) {
+    const seg = { color: curColor, positions: curPos }
+    if (curIsDesc) { descending.push(seg) } else { ascending.push(seg) }
+  }
+  return { descending, ascending }
+}
+
 export default function MiniMap({ track, height, hoveredIdx, onHover, zoomRange }) {
   const [activeLayerId, setActiveLayerId] = useState('topo')
   const activeLayer = LAYERS.find(l => l.id === activeLayerId)
@@ -164,6 +206,7 @@ export default function MiniMap({ track, height, hoveredIdx, onHover, zoomRange 
     [track],
   )
   const allPositions = useMemo(() => processed.map((p) => [p.lat, p.lon]), [processed])
+  const coloredSegments = useMemo(() => buildColoredSegments(processed), [processed])
 
   if (!track || track.length < 2) {
     return <div style={{ width: '100%', height: height || 280, background: '#111' }} />
@@ -221,11 +264,21 @@ export default function MiniMap({ track, height, hoveredIdx, onHover, zoomRange 
       />
       <FitBounds positions={allPositions} />
 
-      {/* Single unified track line using darkest green from elevation palette */}
-      <Polyline
-        positions={allPositions}
-        pathOptions={{ color: '#1a7258', weight: 3, opacity: 0.7 }}
-      />
+      {/* Descending segments drawn first, ascending on top — ascending wins on overlaps */}
+      {coloredSegments.descending.map((seg, i) => (
+        <Polyline
+          key={`d-${i}`}
+          positions={seg.positions}
+          pathOptions={{ color: seg.color, weight: 3, opacity: 1 }}
+        />
+      ))}
+      {coloredSegments.ascending.map((seg, i) => (
+        <Polyline
+          key={`a-${i}`}
+          positions={seg.positions}
+          pathOptions={{ color: seg.color, weight: 3, opacity: 1 }}
+        />
+      ))}
 
       <InteractiveLayer
         processed={processed}
