@@ -10,6 +10,7 @@ import { detectClimbs } from '../utils/detectClimbs.js'
 import ClimbProfile from '../components/ClimbProfile.jsx'
 import StageResults from '../components/StageResults.jsx'
 import StagePhotos from '../components/StagePhotos.jsx'
+import StageSegments from '../components/StageSegments.jsx'
 import { useThemeContext } from '../App.jsx'
 import ThemeToggle from '../components/ThemeToggle.jsx'
 import styles from './StagePage.module.css'
@@ -149,6 +150,8 @@ export default function StagePage() {
           </div>
         )}
       </div>
+
+      <StageSegments stageId={stage.id} />
 
       <nav className={styles.stageNav}>
         {stage.id > 1 && (

@@ -7,7 +7,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "fetch-strava": "node ../scripts/fetch-strava.js",
-    "fetch-teammates": "node ../scripts/fetch-teammates.js"
+    "fetch-teammates": "node ../scripts/fetch-teammates.js",
+    "fetch-segments": "node ../scripts/fetch-segments.js"
   },
   "dependencies": {
     "@tmcw/togeojson": "^7.1.2",
